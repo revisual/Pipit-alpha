@@ -1,0 +1,24 @@
+.slider {
+    position: fixed;
+    border: 1px solid white;
+    background-color: CornflowerBlue;
+    opacity: 0.66;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    bottom: 5px;
+    left: 0;
+    box-shadow: 3px 3px 3px black;
+}
+
+.pipit-menu-button {
+    position: fixed;
+    left: 5px;
+    top: 5px;
+    opacity: 0.66;
+}
+
+.pipit-canvas{
+    z-index:-1;
+}
+

@@ -1,0 +1,21 @@
+{
+   "name": "pipit",
+   "version": "0.0.1",
+   "private": true,
+   "scripts": {
+      "start": "node app.js",
+      "test": "karma start config/karma.conf.js"
+   },
+   "dependencies": {
+      "express": "3.4.6",
+      "jade": "*" ,
+      "signals": "*"
+   },
+   "devDependencies": {
+      "karma": "*",
+      "karma-jasmine": "*"
+   },
+   "engines": {
+      "node": "0.10.5"
+   }
+}

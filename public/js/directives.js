@@ -23,15 +23,15 @@ angular.module( 'app.directives', [] )
    }] )
 
 
-   .directive( 'slider', function ( $document, $swipe, ResizeService ) {
+   .directive( 'slider', function ( $document, $swipe, WindowService ) {
       return {
          restrict: "E",
          require: '?ngModel',
          link: function ( scope, element, attr, ngModel ) {
-            var startX = 0, width = ResizeService.width, height = ResizeService.height, x = 0;
+            var startX = 0, width = WindowService.width, height = WindowService.height, x = 0;
 
 
-            ResizeService.signal.add( function ( w, h ) {
+            WindowService.signal.add( function ( w, h ) {
                width = w;
                height = h;
                var n = attr.value / attr.max;
@@ -41,7 +41,8 @@ angular.module( 'app.directives', [] )
                } );
             } );
 
-            if (attr.touchenabled == "true") {
+
+            if (WindowService.hasTouch) {
                // touch events detected
                $swipe.bind( element, {start: start, move: move} );
             }
@@ -79,7 +80,7 @@ angular.module( 'app.directives', [] )
 
                x = pos.x - startX;
                x = Math.max( 0, x );
-               x = Math.min( x, width - 50 );
+               x = Math.min( x, width - 66 );
                element.css( {
                   left: x + 'px'
                } );

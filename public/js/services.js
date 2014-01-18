@@ -13,14 +13,14 @@ angular.module( 'app.services', [] )
       }
    } )
 
-
-   .factory( 'ResizeService', function ( $window ) {
+   .factory( 'WindowService', function ( $window ) {
 
       var signal = new signals.Signal();
       var o = {
          signal: signal,
          width: $window.innerWidth,
-         height: $window.innerHeight
+         height: $window.innerHeight,
+         hasTouch: ( 'ontouchstart' in $window)
       };
       $window.onresize = function ( event ) {
          o.width = $window.innerWidth;
@@ -31,10 +31,10 @@ angular.module( 'app.services', [] )
 
    } )
 
-   .factory( 'BookService', function ( $http, ResizeService ) {
+   .factory( 'BookService', function ( $http, WindowService ) {
 
       var getSize = function () {
-         var size = Math.max( ResizeService.width, ResizeService.height );
+         var size = Math.max( WindowService.width, WindowService.height );
 
          if (size < 768) {
             size = 768;

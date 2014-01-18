@@ -3,17 +3,17 @@
 var controllers = {};
 
 
-controllers.AppCtrl = function ( ResizeService, CanvasService, ChangeBook, ImageService, PageData ) {
+controllers.AppCtrl = function ( WindowService, CanvasService, ChangeBook, ImageService, PageData ) {
 
    ImageService.on.firstResolved.add( function () {
       if (PageData.pageNumber === 1) {
-         CanvasService.redraw( ResizeService.width, ResizeService.height );
+         CanvasService.redraw( WindowService.width, WindowService.height );
       }
       PageData.pageNumber = 1;
    } );
 
 
-   ResizeService.signal.add( function ( width, height ) {
+   WindowService.signal.add( function ( width, height ) {
       CanvasService.resize( width, height );
    } );
 

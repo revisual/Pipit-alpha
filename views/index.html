@@ -16,7 +16,7 @@
 <body ng-controller="ImageCtrl">
 
 <canvas class="pipit-canvas" map="canvas" style="position: fixed;"></canvas>
-<slider class="slider img-circle" max='{{data.totalPages}}' value="1" ng-model='currentTargetPosition'></slider>
+<slider touchEnabled="true" class="slider img-circle" max='{{data.totalPages}}' value="1" ng-model='currentTargetPosition'></slider>
 
 
 
@@ -25,6 +25,7 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
 <script src="http://code.angularjs.org/1.2.8/angular.min.js"></script>
+<script src="http://code.angularjs.org/1.2.8/angular-touch.min.js"></script>
 <script src="js/signals.js"></script>
 <script src="js/data_objects.js"></script>
 <script src="js/app.js"></script>

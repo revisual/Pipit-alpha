@@ -23,7 +23,7 @@ angular.module( 'app.directives', [] )
    }] )
 
 
-   .directive( 'slider', function ( $document, ResizeService ) {
+   .directive( 'slider', function ( $document, $swipe, ResizeService ) {
       return {
          restrict: "E",
          require: '?ngModel',
@@ -34,34 +34,50 @@ angular.module( 'app.directives', [] )
             ResizeService.signal.add( function ( w, h ) {
                width = w;
                height = h;
-               var n = attr.value / attr.max    ;
-               x = (width - 50)  * n ;
+               var n = attr.value / attr.max;
+               x = (width - 50) * n;
                element.css( {
                   left: x + 'px'
                } );
             } );
 
+            if (attr.touchenabled == "true") {
+               // touch events detected
+               $swipe.bind( element, {start: start, move: move} );
+            }
 
-            element.on( 'mousedown touchstart', function ( event ) {
+            else {
+               element.on( 'mousedown', function ( event ) {
 
-               // Prevent default dragging of selected content
-               event.preventDefault();
-               startX = event.screenX - x;
-               $document.on( 'mousemove touchmove', move );
-               $document.on( 'mouseup touchend', end );
-            } );
+                  event.preventDefault();
+                  startX = event.screenX - x;
 
-            function move( event ) {
+                  $document.on( 'mousemove', mouseMove );
+                  $document.on( 'mouseup', mouseEnd );
+
+               } );
+            }
+
+
+            function start( pos ) {
+               startX = pos.x - x;
+            }
+
+            function mouseMove( event ) {
+               move( {x: event.screenX, y: event.screenY} );
+            }
+
+            function move( pos ) {
                var n = x / (width - 50);
                var v = (Math.floor( (attr.max - 1) * n ) + 1)
                if (attr.value != v) {
                   attr.value = v;
-                  scope.$apply(function() {
-                     ngModel.$setViewValue(attr.value);
-                  });
+                  scope.$apply( function () {
+                     ngModel.$setViewValue( attr.value );
+                  } );
                }
 
-               x = event.screenX - startX;
+               x = pos.x - startX;
                x = Math.max( 0, x );
                x = Math.min( x, width - 50 );
                element.css( {
@@ -69,9 +85,10 @@ angular.module( 'app.directives', [] )
                } );
             }
 
-            function end() {
-               $document.unbind( 'mousemove touchmove', move );
-               $document.unbind( 'mouseup touchend', end );
+
+            function mouseEnd() {
+               $document.unbind( 'mousemove', mouseMove );
+               $document.unbind( 'mouseup', mouseEnd );
             }
          }
       }

@@ -51,27 +51,39 @@ controllers.ImageCtrl = function ( $scope, $timeout, PageData, CanvasService ) {
    $scope.currentPosition = 0;
    $scope.velocity = 0;
    $scope.active = false;
+   $scope.interval = 1;
 
    $scope.onTimeout = function () {
 
       var increment = 0;
 
-      $scope.velocity += Math.abs( ($scope.currentTargetPosition - $scope.currentPosition) * 0.01 );
+      $scope.velocity += 1;//Math.abs( ($scope.currentTargetPosition - $scope.currentPosition) * 0.01 );
 
 
       if ($scope.velocity >= 1) {
+         var start = new Date().getTime();
+
          increment = 1;
          $scope.velocity = 0;
          $scope.currentPosition = ( $scope.currentTargetPosition > $scope.currentPosition) ? $scope.currentPosition + increment : $scope.currentPosition - increment;
 
          PageData.pageNumber = $scope.currentPosition;
+
+
+
          CanvasService.redraw();
+
+         var time = new Date().getTime() - start;
+
+         $scope.interval = ( $scope.interval + time ) * 0.5;
+
+       //  console.log("interval = " + $scope.interval)
       }
 
       $scope.active = ($scope.currentPosition != $scope.currentTargetPosition);
 
       if ($scope.active) {
-         $scope.timeout = $timeout( $scope.onTimeout, 10 );
+         $scope.timeout = $timeout( $scope.onTimeout, $scope.interval );
       }
 
    }
@@ -82,8 +94,8 @@ controllers.ImageCtrl = function ( $scope, $timeout, PageData, CanvasService ) {
       }
 
       $scope.active = true;
-      console.log( "start" );
-      $scope.timeout = $timeout( $scope.onTimeout, 1 );
+     // console.log( "start interval = " + $scope.interval);
+      $scope.timeout = $timeout( $scope.onTimeout, $scope.interval );
 
    } );
 

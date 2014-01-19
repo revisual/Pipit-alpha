@@ -28,14 +28,17 @@ angular.module( 'app.directives', [] )
          restrict: "E",
          require: '?ngModel',
          link: function ( scope, element, attr, ngModel ) {
-            var startX = 0, width = WindowService.width, height = WindowService.height, x = 0;
-
+            var startX = 0,
+               width = WindowService.width,
+               height = WindowService.height,
+               x = 0,
+               sliderWidth = element.prop( "offsetWidth" );
 
             WindowService.signal.add( function ( w, h ) {
                width = w;
                height = h;
                var n = attr.value / attr.max;
-               x = (width - 50) * n;
+               x = (width - sliderWidth) * n;
                element.css( {
                   left: x + 'px'
                } );
@@ -43,7 +46,6 @@ angular.module( 'app.directives', [] )
 
 
             if (WindowService.hasTouch) {
-               // touch events detected
                $swipe.bind( element, {start: start, move: move} );
             }
 
@@ -69,8 +71,8 @@ angular.module( 'app.directives', [] )
             }
 
             function move( pos ) {
-               var n = x / (width - 50);
-               var v = (Math.floor( (attr.max - 1) * n ) + 1)
+               var n = x / (width - sliderWidth);
+               var v = (Math.floor( (attr.max - 1) * n ) + 1);
                if (attr.value != v) {
                   attr.value = v;
                   scope.$apply( function () {
@@ -80,7 +82,7 @@ angular.module( 'app.directives', [] )
 
                x = pos.x - startX;
                x = Math.max( 0, x );
-               x = Math.min( x, width - 66 );
+               x = Math.min( x, width - sliderWidth );
                element.css( {
                   left: x + 'px'
                } );
@@ -91,6 +93,39 @@ angular.module( 'app.directives', [] )
                $document.unbind( 'mousemove', mouseMove );
                $document.unbind( 'mouseup', mouseEnd );
             }
+         }
+      }
+   } )
+
+   .directive( 'marker', function ( WindowService ) {
+      return {
+         restrict: "E",
+         require: '?ngModel',
+         link: function ( scope, element, attr, ngModel ) {
+            var width = WindowService.width, x = 0,
+               sliderWidth = element.prop( "offsetWidth" );
+
+            // Specify how UI should be updated
+            ngModel.$render = function () {
+
+               repos();
+
+            };
+
+            WindowService.signal.add( function ( w, h ) {
+               width = w;
+               repos();
+            } );
+
+            function repos(){
+               var n = ngModel.$viewValue / attr.max;
+               x = (width - sliderWidth) * n;
+               element.css( {
+                  left: x + 'px'
+               } );
+            }
+
+
          }
       }
    } );

@@ -70,14 +70,12 @@ controllers.ImageCtrl = function ( $scope, $timeout, PageData, CanvasService ) {
          PageData.pageNumber = $scope.currentPosition;
 
 
-
          CanvasService.redraw();
 
          var time = new Date().getTime() - start;
 
          $scope.interval = ( $scope.interval + time ) * 0.5;
 
-       //  console.log("interval = " + $scope.interval)
       }
 
       $scope.active = ($scope.currentPosition != $scope.currentTargetPosition);

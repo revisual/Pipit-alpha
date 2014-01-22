@@ -65,16 +65,30 @@ angular.module( 'app.services', [] )
       }
    } )
 
-   .factory( 'ChangeBook', function ( BookService, PageData ) {
+   .factory( 'ChangeBook', function ( BookService, PageData, $location ) {
+
       return {
          to: function ( project, book ) {
             BookService.getData( project, book )
                .then( function ( data ) {
                   PageData.load( data.urls.reverse() );
-               } );
+               } )
+         },
+         fromQuery: function () {
+
+            var s = $location.search();
+            if(s.project == null || s.book == null){
+               this.to( "whitenight", "thru-the-tunnel" );
+            }
+
+            else{
+               this.to( s.project, s.book );
+            }
+
          }
       }
    } )
+
 
    .value( 'ImageService', new ImageListLoader() )
 

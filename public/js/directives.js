@@ -97,38 +97,7 @@ angular.module( 'app.directives', [] )
       }
    } )
 
-   .directive( 'marker', function ( WindowService ) {
-      return {
-         restrict: "E",
-         require: '?ngModel',
-         link: function ( scope, element, attr, ngModel ) {
-            var width = WindowService.width, x = 0,
-               sliderWidth = element.prop( "offsetWidth" );
 
-            // Specify how UI should be updated
-            ngModel.$render = function () {
-
-               repos();
-
-            };
-
-            WindowService.signal.add( function ( w, h ) {
-               width = w;
-               repos();
-            } );
-
-            function repos(){
-               var n = ngModel.$viewValue / attr.max;
-               x = (width - sliderWidth) * n;
-               element.css( {
-                  left: x + 'px'
-               } );
-            }
-
-
-         }
-      }
-   } );
 
 
 

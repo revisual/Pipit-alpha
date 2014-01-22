@@ -15,11 +15,11 @@
 </head>
 <body ng-controller="ImageCtrl">
 
-<canvas class="pipit-canvas" map="canvas" style="position: fixed;"></canvas>
-<div>
-    <marker class="marker img-circle" max='{{data.totalPages}}' value="1" ng-model='currentPosition'></marker>
-    <slider class="slider img-circle" max='{{data.totalPages}}' value="1" ng-model='currentTargetPosition'></slider>
-</div>
+<canvas class="pipit-canvas" map="canvas"></canvas>
+
+
+    <slider class="slider img-circle" max='{{data.totalPages}}' maxWidth="100" value="1" ng-model='currentTargetPosition'></slider>
+
 
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

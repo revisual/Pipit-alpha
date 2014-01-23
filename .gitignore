@@ -6,6 +6,7 @@ bin-release/
 out/
 node_modules/
 public/lib/
+resources/
 
 
 # Other files and folders

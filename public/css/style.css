@@ -10,15 +10,6 @@
     box-shadow: 2px 2px 4px black;
 }
 
-.marker {
-    position: fixed;
-    background-image:url('../images/pages/marker.png');
-    width: 66px;
-    height: 66px;
-    bottom: 5px;
-    left: 0;
-
-}
 
 .pipit-menu-button {
     position: fixed;
@@ -29,6 +20,11 @@
 
 .pipit-canvas{
     z-index:-1;
-    position: fixed;
+    position: absolute;
+    top: 0;
+}
+
+.progress{
+    opacity: 0.5;
 }
 

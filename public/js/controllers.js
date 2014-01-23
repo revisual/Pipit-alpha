@@ -33,7 +33,15 @@ controllers.AccordionCtrl = function ( $scope, ProjectService ) {
 }
 
 controllers.ProgressCtrl = function ( $scope, ImageService ) {
-   $scope.data = ImageService;
+   $scope.percent = 0;
+   ImageService.on.progress.add( function ( current, total ) {
+      $scope.$apply( function () {
+
+         $scope.percent = Math.round( (current / total) * 100 );
+
+      } );
+
+   } );
 }
 
 controllers.PipitListCtrl = function ( $scope, ChangeBook ) {

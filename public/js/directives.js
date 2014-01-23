@@ -24,7 +24,7 @@ angular.module( 'app.directives', [] )
 
    .directive( 'prog', function () {
       return  {
-         template: "<div class='progress'>"+
+         template: "<div class='progress'>" +
             "<div class='progress-bar' role='progressbar' style='{{widthStyle}}' > </div> </div>",
          restrict: 'E',
          link: function ( scope, element, attribs ) {
@@ -53,19 +53,27 @@ angular.module( 'app.directives', [] )
          require: '?ngModel',
 
          link: function ( scope, element, attr, ngModel ) {
-            var startX = 0,
-               width = WindowService.width,
-               x = 0,
-               sliderWidth = element.prop( "offsetWidth" );
+
+            var width = WindowService.width,
+               sliderIconWidth = element.prop( "offsetWidth" ),
+               sliderTrackWidth = Math.min( width, attr.maxwidth ),
+               gutter = (width - sliderTrackWidth) * 0.5,
+               x = gutter,
+               startX = 0;
+
+            element.css( {
+               left: x + 'px'
+            } );
 
             WindowService.signal.add( function ( w, h ) {
                width = w;
-               x = (width - sliderWidth) * ngModel.$viewValue;
+               sliderTrackWidth = Math.min( width, attr.maxwidth ) ;
+               gutter = (width - sliderTrackWidth) * 0.5;
+               x = gutter + ((sliderTrackWidth - sliderIconWidth) * ngModel.$viewValue);
                element.css( {
                   left: x + 'px'
                } );
             } );
-
 
             if (WindowService.hasTouch) {
                $swipe.bind( element, {start: start, move: move} );
@@ -94,15 +102,15 @@ angular.module( 'app.directives', [] )
             function move( pos ) {
 
                x = pos.x - startX;
-               x = Math.max( 0, x );
-               x = Math.min( x, width - sliderWidth );
+               x = Math.max( gutter, x );
+               x = Math.min( x, width - sliderIconWidth - gutter );
+
                element.css( {
                   left: x + 'px'
                } );
 
-
                scope.$apply( function () {
-                  ngModel.$setViewValue( x / (width - sliderWidth) );
+                  ngModel.$setViewValue( (x - gutter) / (sliderTrackWidth - sliderIconWidth) );
                } );
 
 

@@ -55,12 +55,12 @@ controllers.PipitListCtrl = function ( $scope, ChangeBook ) {
 controllers.ImageCtrl = function ( $scope, $timeout, PageData, CanvasService ) {
 
    $scope.data = PageData;
-   $scope.currentTargetPosition = 0;
+   $scope.sliderValue = 0;
 
 
-   $scope.$watch( 'currentTargetPosition', function () {
+   $scope.$watch( 'sliderValue', function () {
 
-      PageData.pageNumber = $scope.currentTargetPosition;
+      PageData.pageNumber = Math.round( $scope.sliderValue * PageData.totalPages );
       CanvasService.redraw();
 
 

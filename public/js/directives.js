@@ -51,18 +51,16 @@ angular.module( 'app.directives', [] )
       return {
          restrict: "E",
          require: '?ngModel',
+
          link: function ( scope, element, attr, ngModel ) {
             var startX = 0,
                width = WindowService.width,
-               height = WindowService.height,
                x = 0,
                sliderWidth = element.prop( "offsetWidth" );
 
             WindowService.signal.add( function ( w, h ) {
                width = w;
-               height = h;
-               var n = attr.value / attr.max;
-               x = (width - sliderWidth) * n;
+               x = (width - sliderWidth) * ngModel.$viewValue;
                element.css( {
                   left: x + 'px'
                } );
@@ -85,7 +83,6 @@ angular.module( 'app.directives', [] )
                } );
             }
 
-
             function start( pos ) {
                startX = pos.x - x;
             }
@@ -95,14 +92,6 @@ angular.module( 'app.directives', [] )
             }
 
             function move( pos ) {
-               var n = x / (width - sliderWidth);
-               var v = (Math.floor( (attr.max - 1) * n ) + 1);
-               if (attr.value != v) {
-                  attr.value = v;
-                  scope.$apply( function () {
-                     ngModel.$setViewValue( attr.value );
-                  } );
-               }
 
                x = pos.x - startX;
                x = Math.max( 0, x );
@@ -110,6 +99,13 @@ angular.module( 'app.directives', [] )
                element.css( {
                   left: x + 'px'
                } );
+
+
+               scope.$apply( function () {
+                  ngModel.$setViewValue( x / (width - sliderWidth) );
+               } );
+
+
             }
 
 

@@ -117,7 +117,6 @@ ImageListLoader = function () {
 PageData = function ( imageList ) {
 
    var _pageNumber = 1;
-   var _that = this;
    var _imageList = imageList;
 
    this.__defineGetter__( "totalPages", function () {

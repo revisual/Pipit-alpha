@@ -22,6 +22,30 @@ angular.module( 'app.directives', [] )
       }
    }] )
 
+   .directive( 'prog', function () {
+      return  {
+         template: "<div class='progress'>"+
+            "<div class='progress-bar' role='progressbar' style='{{widthStyle}}' > </div> </div>",
+         restrict: 'E',
+         link: function ( scope, element, attribs ) {
+            element.collapse( {
+               toggle: true
+            } );
+            element.collapse( 'show' );
+            scope.widthStyle = "width: " + scope.percent + "%;";
+
+            scope.$watch( "percent", function () {
+               scope.widthStyle = "width: " + scope.percent + "%;";
+               if (scope.percent === 100) {
+                  element.collapse( 'hide' );
+               }
+            } )
+
+
+         }
+      }
+   } )
+
 
    .directive( 'slider', function ( $document, $swipe, WindowService ) {
       return {

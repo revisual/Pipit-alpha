@@ -13,19 +13,18 @@
     <![endif]-->
 
 </head>
-<body ng-controller="ImageCtrl">
+<body>
+<prog class="collapse" ng-controller="ProgressCtrl"></prog>
+<div ng-controller="ImageCtrl">
+    <canvas class="pipit-canvas" map="canvas"></canvas>
+    <slider class="slider img-circle" max='{{data.totalPages}}' maxWidth="100" value="1"
+            ng-model='currentTargetPosition'></slider>
 
-<canvas class="pipit-canvas" map="canvas"></canvas>
-
-
-    <slider class="slider img-circle" max='{{data.totalPages}}' maxWidth="100" value="1" ng-model='currentTargetPosition'></slider>
-
-
-
+</div>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.js"></script>
 <script src="http://code.angularjs.org/1.2.8/angular.min.js"></script>
 <script src="http://code.angularjs.org/1.2.8/angular-touch.min.js"></script>
 <script src="js/signals.js"></script>

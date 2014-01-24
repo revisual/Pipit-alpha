@@ -32,20 +32,12 @@ angular.module( 'app.directives', [] )
          require: '?ngModel',
 
          link: function ( scope, element, attribs, ngModel ) {
-            element.collapse( {
-               toggle: true
-            } );
-            element.collapse( 'show' );
+
             scope.widthStyle = "width: " + ngModel.$viewValue + "%;";
 
             ngModel.$render = function() {
                scope.widthStyle = "width: " + ngModel.$viewValue + "%;";
-               if (ngModel.$viewValue === 100) {
-                  element.collapse( 'hide' );
-               }
             };
-
-
          }
       }
    } )

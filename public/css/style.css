@@ -10,7 +10,6 @@
     box-shadow: 2px 2px 4px black;
 }
 
-
 .pipit-menu-button {
     position: fixed;
     left: 5px;
@@ -18,13 +17,30 @@
     opacity: 0.66;
 }
 
-.pipit-canvas{
-    z-index:-1;
+.pipit-canvas {
+    z-index: -1;
     position: absolute;
     top: 0;
 }
 
-.progress{
+/*.progress{
+    z-index: 1;
+}*/
+
+#progbarContainer.fade,
+#contentContainer.fade {
+    opacity: 0;
+    -webkit-transition: opacity 0.25s linear;
+    -moz-transition: opacity 0.25s linear;
+    -o-transition: opacity 0.25s linear;
+    transition: opacity 0.25s linear;
+}
+
+#contentContainer.fade.in {
+    opacity: 1;
+}
+
+#progbarContainer.fade.in {
     opacity: 0.5;
 }
 

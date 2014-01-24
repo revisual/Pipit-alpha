@@ -8,18 +8,17 @@ controllers.AppCtrl = function ( WindowService, CanvasService, ChangeBook, Image
    ImageService.on.firstResolved.add( function () {
       if (PageData.pageNumber === 1) {
          CanvasService.redraw( WindowService.width, WindowService.height );
+         $("#progbarContainer").addClass("in");
+         $("#contentContainer").addClass("in");
       }
       PageData.pageNumber = 1;
    } );
-
 
    WindowService.signal.add( function ( width, height ) {
       CanvasService.resize( width, height );
    } );
 
    ChangeBook.fromQuery();
-   // ChangeBook.to( "whitenight", "thru-the-tunnel" );
-
 }
 
 
@@ -38,6 +37,9 @@ controllers.ProgressCtrl = function ( $scope, ImageService ) {
       $scope.$apply( function () {
 
          $scope.percent = Math.round( (current / total) * 100 );
+         if( $scope.percent == 100){
+            $("#progbarContainer").removeClass("in");
+         }
 
       } );
 

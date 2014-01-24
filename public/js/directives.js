@@ -22,12 +22,15 @@ angular.module( 'app.directives', [] )
       }
    }] )
 
-   .directive( 'prog', function () {
+   .directive( 'progbar', function () {
       return  {
+
          template: "<div class='progress'>" +
             "<div class='progress-bar' role='progressbar' style='{{widthStyle}}' > </div> </div>",
+
          restrict: 'E',
          require: '?ngModel',
+
          link: function ( scope, element, attribs, ngModel ) {
             element.collapse( {
                toggle: true
@@ -38,7 +41,7 @@ angular.module( 'app.directives', [] )
             ngModel.$render = function() {
                scope.widthStyle = "width: " + ngModel.$viewValue + "%;";
                if (ngModel.$viewValue === 100) {
-                  element.collapse( 'hide' );
+                  element.collapse( 'toggle' );
                }
             };
 

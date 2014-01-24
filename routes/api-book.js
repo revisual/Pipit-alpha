@@ -1,4 +1,3 @@
-
 exports.get = function ( req, res ) {
 
    var path = require( "path" );
@@ -13,8 +12,34 @@ exports.get = function ( req, res ) {
 
    data.projectID = project;
    data.bookID = book;
-   data.urls = buildFiles.getJpgUrls( project + "/" + book + "/" + size ) ;
+   data.size = size;
+   data.url = process.env.IMAGE_END_POINT;
+
+   data.urls = buildJpgUrls( data );
 
    res.json( data );
+}
+
+buildJpgUrls = function ( data ) {
+
+   var urls = [];
+   var range = data.ranges[data.bookID];
+
+   var start = range.split( "-" )[0];
+   var end = range.split( "-" )[1];
+
+   for (var i = start; i <= end; i++) {
+      var url = data.url + data.projectID + "/" + data.bookID + "/" + data.size + "/" + pad(i, 5) + ".jpg"
+      urls.push( url );
+      console.log( "url = " + url );
+   }
+
+   return urls;
+}
+
+function pad(num, size) {
+   var s = num+"";
+   while (s.length < size) s = "0" + s;
+   return s;
 }
 

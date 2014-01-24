@@ -41,7 +41,7 @@ angular.module( 'app.directives', [] )
             ngModel.$render = function() {
                scope.widthStyle = "width: " + ngModel.$viewValue + "%;";
                if (ngModel.$viewValue === 100) {
-                  element.collapse( 'toggle' );
+                  element.collapse( 'hide' );
                }
             };
 

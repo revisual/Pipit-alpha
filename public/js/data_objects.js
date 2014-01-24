@@ -120,7 +120,7 @@ PageData = function ( imageList ) {
    var _imageList = imageList;
 
    this.__defineGetter__( "totalPages", function () {
-      return _imageList.totalNumberImages//images.length;
+      return _imageList.numberLoadedImages;
    } );
 
    this.__defineGetter__( "width", function () {

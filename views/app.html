@@ -1,8 +1,7 @@
 <!doctype html>
 <html ng-app='app' ng-controller="AppCtrl">
 <head>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" user-scalable=no>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/style.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -14,11 +13,14 @@
 
 </head>
 <body>
-<progbar class="collapse" ng-model='percent' ng-controller="ProgressCtrl"></progbar>
-<div ng-controller="ImageCtrl">
+<div id="progbarContainer" class="fade" >
+    <progbar ng-model='percent' ng-controller="ProgressCtrl"></progbar>
+</div>
+<div id="contentContainer" ng-controller="ImageCtrl" class="fade">
     <canvas class="pipit-canvas" map="canvas"></canvas>
     <slider class="slider img-circle" maxWidth="500" ng-model='sliderValue'></slider>
 </div>
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->

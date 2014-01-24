@@ -1,7 +1,7 @@
 .slider {
     position: fixed;
     border: 1px solid cornflowerblue;
-    background: rgba(100, 150, 237, 0.22) url('../images/pages/slider.png');
+    background: rgba(100, 150, 237, 0.22) url('../images/slider.png');
     cursor: pointer;
     width: 64px;
     height: 64px;

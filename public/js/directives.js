@@ -27,19 +27,20 @@ angular.module( 'app.directives', [] )
          template: "<div class='progress'>" +
             "<div class='progress-bar' role='progressbar' style='{{widthStyle}}' > </div> </div>",
          restrict: 'E',
-         link: function ( scope, element, attribs ) {
+         require: '?ngModel',
+         link: function ( scope, element, attribs, ngModel ) {
             element.collapse( {
                toggle: true
             } );
             element.collapse( 'show' );
-            scope.widthStyle = "width: " + scope.percent + "%;";
+            scope.widthStyle = "width: " + ngModel.$viewValue + "%;";
 
-            scope.$watch( "percent", function () {
-               scope.widthStyle = "width: " + scope.percent + "%;";
-               if (scope.percent === 100) {
+            ngModel.$render = function() {
+               scope.widthStyle = "width: " + ngModel.$viewValue + "%;";
+               if (ngModel.$viewValue === 100) {
                   element.collapse( 'hide' );
                }
-            } )
+            };
 
 
          }

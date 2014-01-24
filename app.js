@@ -30,6 +30,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+app.get('/app/', routes.app);
 app.get('/api/projects/', project.get);
 app.get('/api/:project/:book/:size', book.get);
 

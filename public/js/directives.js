@@ -35,7 +35,7 @@ angular.module( 'app.directives', [] )
 
             scope.widthStyle = "width: " + ngModel.$viewValue + "%;";
 
-            ngModel.$render = function() {
+            ngModel.$render = function () {
                scope.widthStyle = "width: " + ngModel.$viewValue + "%;";
             };
          }
@@ -43,7 +43,7 @@ angular.module( 'app.directives', [] )
    } )
 
 
-   .directive( 'slider', function ( $document, $swipe, WindowService ) {
+   .directive( 'slider', function ( $document, $swipe, $timeout, WindowService ) {
       return {
          restrict: "E",
          require: '?ngModel',
@@ -55,7 +55,12 @@ angular.module( 'app.directives', [] )
                sliderTrackWidth = Math.min( width, attr.maxwidth ),
                gutter = (width - sliderTrackWidth) * 0.5,
                x = gutter,
-               startX = 0;
+               oldX = 0,
+               xSpeed = 0,
+               startX = 0,
+               friction = 0.98,
+               topSpeed = width / 80,
+               interval = 16;
 
             element.css( {
                left: x + 'px'
@@ -63,7 +68,8 @@ angular.module( 'app.directives', [] )
 
             WindowService.signal.add( function ( w, h ) {
                width = w;
-               sliderTrackWidth = Math.min( width, attr.maxwidth ) ;
+               topSpeed = width / 80;
+               sliderTrackWidth = Math.min( width, attr.maxwidth );
                gutter = (width - sliderTrackWidth) * 0.5;
                x = gutter + ((sliderTrackWidth - sliderIconWidth) * ngModel.$viewValue);
                element.css( {
@@ -72,7 +78,7 @@ angular.module( 'app.directives', [] )
             } );
 
             if (WindowService.hasTouch) {
-               $swipe.bind( element, {start: start, move: move} );
+               $swipe.bind( element, {start: start, move: move, end: end, cancel:end} );
             }
 
             else {
@@ -91,6 +97,11 @@ angular.module( 'app.directives', [] )
                startX = pos.x - x;
             }
 
+            function end( pos ) {
+
+               $timeout( throwSlider, interval );
+            }
+
             function mouseMove( event ) {
                move( {x: event.screenX, y: event.screenY} );
             }
@@ -100,6 +111,10 @@ angular.module( 'app.directives', [] )
                x = pos.x - startX;
                x = Math.max( gutter, x );
                x = Math.min( x, width - sliderIconWidth - gutter );
+
+               var newX = pos.x;
+               xSpeed = Math.min(newX - oldX, topSpeed);
+               oldX = newX;
 
                element.css( {
                   left: x + 'px'
@@ -116,6 +131,34 @@ angular.module( 'app.directives', [] )
             function mouseEnd() {
                $document.unbind( 'mousemove', mouseMove );
                $document.unbind( 'mouseup', mouseEnd );
+
+               $timeout( throwSlider, interval );
+            }
+
+            function throwSlider() {
+
+               if (xSpeed < 0.1 && xSpeed > -0.1) {
+                  xSpeed = 0;
+                  return;
+               }
+
+
+               x += xSpeed;
+               x = Math.max( gutter, x );
+               x = Math.min( x, width - sliderIconWidth - gutter );
+
+               xSpeed *= friction;
+
+               element.css( {
+                  left: x + 'px'
+               } );
+
+               scope.$apply( function () {
+                  ngModel.$setViewValue( (x - gutter) / (sliderTrackWidth - sliderIconWidth) );
+               } );
+
+
+               $timeout( throwSlider, interval );
             }
          }
       }

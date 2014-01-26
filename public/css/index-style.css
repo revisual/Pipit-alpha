@@ -1,0 +1,20 @@
+body {
+    background-color: #dddddd;
+}
+
+.panel-heading,
+.list-group-item {
+
+    padding: 0px;
+
+}
+
+.panel-title .thumb,
+.list-group-item .thumb {
+
+    margin: 5px;
+}
+
+
+
+

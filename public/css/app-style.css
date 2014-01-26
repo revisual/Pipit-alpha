@@ -1,3 +1,7 @@
+body {
+    background-color: #000000;
+}
+
 .slider {
     position: fixed;
     border: 1px solid cornflowerblue;
@@ -23,10 +27,6 @@
     top: 0;
 }
 
-/*.progress{
-    z-index: 1;
-}*/
-
 #progbarContainer.fade,
 #contentContainer.fade {
     opacity: 0;
@@ -43,6 +43,3 @@
 #progbarContainer.fade.in {
     opacity: 0.5;
 }
-
-
-

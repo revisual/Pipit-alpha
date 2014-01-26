@@ -4,7 +4,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" user-scalable=0>
     <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index-style.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -15,44 +15,70 @@
 </head>
 <body>
 <div class="container">
-    <div class="panel-group" id="accordion">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#whiteNight">
-                        Brighton White Night
-                    </a>
-                </h4>
-            </div>
-            <div id="whiteNight" class="panel-collapse collapse in">
-                <div class="panel-body">
-                    <div class="list-group">
-                        <a href="app/#?project=whitenight&book=thru-the-tunnel" class="list-group-item">Through The Tunnel</a>
-                        <a href="app/#?project=whitenight&book=splashing" class="list-group-item">Splashing With The Fishes</a>
-                        <a href="app/#?project=whitenight&book=processional" class="list-group-item">Processional March</a>
-                        <a href="app/#?project=whitenight&book=into-the-sea" class="list-group-item">Into The Sea</a>
+    <div class="row">
+        <h1>Flickers</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tristique semper orci, vitae convallis tortor
+                molestie ut. Nunc commodo ligula sed erat ornare vehicula. Sed ligula eros, facilisis sollicitudin erat
+                quis, tempus lobortis metus. Aenean in sapien lorem. Nunc ut semper urna. Aenean at eleifend lectus,
+                aliquam pulvinar turpis. Aliquam nisi tortor, feugiat vel ligula posuere, sagittis lacinia nisi.</p>
+        </div>
 
+        <div class="panel-group col-md-6" id="accordion">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#whiteNight">
+                            <img class="thumb" src="../images/thumbs/whitenight.jpg">Brighton White Night
+                        </a>
+                    </h4>
+                </div>
+                <div id="whiteNight" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <a href="app/#?project=whitenight&book=thru-the-tunnel" class="list-group-item">
+                                <img class="thumb" src="../images/thumbs/thru-the-Through The Tunnel
+                            </a>
+                            <a href="app/#?project=whitenight&book=splashing" class="list-group-item">
+                                <img class="thumb" src="../images/thumbs/splashing.jpg">
+                                Splashing With The Fishes
+                            </a>
+                            <a href="app/#?project=whitenight&book=processional" class="list-group-item">
+                                <img class="thumb" src="../images/thumbs/processional.jpg">
+                                Processional March
+                            </a>
+                            <a href="app/#?project=whitenight&book=into-the-sea" class="list-group-item">
+                                <img class="thumb" src="../images/thumbs/into-the-sea.jpg">Into
+                                The Sea
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                        Collapsible Group Item #2
-                    </a>
-                </h4>
-            </div>
-            <div id="collapseTwo" class="panel-collapse collapse">
-                <div class="panel-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
-                    wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
-                    eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
-                    assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-                    sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-                    farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-                    labore sustainable VHS.
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                            Collapsible Group Item #2
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                        3
+                        wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+                        laborum
+                        eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
+                        nulla
+                        assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                        nesciunt
+                        sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                        farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+                        labore sustainable VHS.
+                    </div>
                 </div>
             </div>
         </div>
@@ -62,14 +88,5 @@
 <script src="https://code.jquery.com/jquery.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.js"></script>
-<script src="http://code.angularjs.org/1.2.8/angular.min.js"></script>
-<script src="http://code.angularjs.org/1.2.8/angular-touch.min.js"></script>
-<script src="js/signals.js"></script>
-<script src="js/data_objects.js"></script>
-<script src="js/app.js"></script>
-<script src="js/services.js"></script>
-<script src="js/controllers.js"></script>
-<script src="js/directives.js"></script>
-<script src="js/filters.js"></script>
 </body>
 </html>

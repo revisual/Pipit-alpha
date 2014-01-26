@@ -60,7 +60,7 @@ angular.module( 'app.directives', [] )
                startX = 0,
                friction = 0.98,
                topSpeed = width / 80,
-               interval = 16;
+               interval = 33;
 
             element.css( {
                left: x + 'px'

@@ -14,48 +14,36 @@ ImageListLoader = function () {
    var _errors = [];
    var _that = this;
 
-   this.__defineGetter__( "files", function () {
-      return _files;
-   } );
-
-   this.__defineGetter__( "errors", function () {
-      return _errors;
-   } );
-
-   this.__defineGetter__( "percentLoaded", function () {
-      return (_that.numberLoadedImages / _that.totalNumberImages) * 100;
-   } );
-
    this.getImage = function () {
       return new Image();
-   }
-
+   };
 
    this.add = function ( url ) {
 
       var type = typeof url;
       if (type === "string") {
          _files.push( url );
-         this.totalNumberImages = _files.length;
+
       }
 
       else if (type === "object") {
          if (url instanceof Array) {
             _files = _files.concat( url );
-            this.totalNumberImages = _files.length;
          }
       }
-   }
+
+      this.totalNumberImages = _files.length;
+   };
 
    this.start = function () {
       _filesWorking = _files.slice();
       loadNext();
-   }
+   };
 
    this.resetWith = function ( url ) {
       this.reset();
       this.add( url );
-   }
+   };
 
    this.reset = function () {
       _filesWorking.length = 0;
@@ -118,29 +106,33 @@ PageData = function ( imageList ) {
 
    var _pageNumber = 1;
    var _imageList = imageList;
+   this.on = _imageList.on;
 
-   this.__defineGetter__( "totalPages", function () {
+   this.getTotalLoadedPages = function () {
       return _imageList.numberLoadedImages;
-   } );
+   };
 
-   this.__defineGetter__( "width", function () {
+   this.getTotalPages = function () {
+      return _imageList.totalNumberImages;
+   };
+
+   this.getWidth = function () {
       if (_imageList.images.length === 0)return 0;
       return _imageList.images[_pageNumber - 1].width;
-   } );
+   };
 
-   this.__defineGetter__( "height", function () {
+   this.getHeight = function () {
       if (_imageList.images.length === 0)return 0;
       return _imageList.images[_pageNumber - 1].height;
-   } );
+   };
 
-   this.__defineGetter__( "pageNumber", function () {
+   this.getPageNumber = function () {
       return _pageNumber
-   } );
+   };
 
-   this.__defineSetter__( "pageNumber", function ( value ) {
-      var p = Math.max( 1, Math.min( value, _imageList.images.length ) )
-      _pageNumber = p;
-   } );
+   this.setPageNumber = function ( value ) {
+      _pageNumber = Math.max( 1, Math.min( value, _imageList.images.length ) );
+   };
 
 
    this.getCurrentImage = function () {
@@ -199,9 +191,9 @@ ElementMap = function () {
          element[name] = value;
       }
 
-      this.setCSS = function (  name, value ) {
+      this.setCSS = function ( name, value ) {
          if (element === null || element === undefined) return;
-         element.style[name] = value ;
+         element.style[name] = value;
       }
 
       this.call = function ( name, args ) {

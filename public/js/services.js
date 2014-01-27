@@ -113,13 +113,13 @@ angular.module( 'app.services', [] )
             var _that = this;
 
             this.redraw = function ( w, h ) {
-               if (PageData.totalPages === 0)return;
+               if (PageData.getTotalLoadedPages() === 0)return;
                var img = PageData.getCurrentImage();
                if (this.height == 0 || isNaN( this.height )) {
                   calculateDims( w, h );
                   applyDims();
                }
-               _context.drawImage( img, 0, 0, PageData.width, PageData.height, 0, 0, this.width, this.height );
+               _context.drawImage( img, 0, 0, PageData.getWidth(), PageData.getHeight(), 0, 0, this.width, this.height );
             }
 
             this.resize = function ( w, h ) {
@@ -130,7 +130,7 @@ angular.module( 'app.services', [] )
 
             var calculateDims = function ( w, h ) {
                _that.height = h;
-               _that.width = PageData.width * (_that.height / PageData.height);
+               _that.width = PageData.getWidth() * (_that.height / PageData.getHeight());
                _that.x = (w - _that.width) * 0.5;
 
             }

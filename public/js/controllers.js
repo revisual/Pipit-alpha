@@ -6,12 +6,12 @@ var controllers = {};
 controllers.AppCtrl = function ( WindowService, CanvasService, ChangeBook, ImageService, PageData ) {
 
    ImageService.on.firstResolved.add( function () {
-      if (PageData.pageNumber === 1) {
+      if (PageData.getPageNumber() === 1) {
          CanvasService.redraw( WindowService.width, WindowService.height );
-         $("#progbarContainer").addClass("in");
-         $("#contentContainer").addClass("in");
+         $( "#progbarContainer" ).addClass( "in" );
+         $( "#contentContainer" ).addClass( "in" );
       }
-      PageData.pageNumber = 1;
+      PageData.setPageNumber( 1 );
    } );
 
    WindowService.signal.add( function ( width, height ) {
@@ -37,8 +37,8 @@ controllers.ProgressCtrl = function ( $scope, ImageService ) {
       $scope.$apply( function () {
 
          $scope.percent = Math.round( (current / total) * 100 );
-         if( $scope.percent == 100){
-            $("#progbarContainer").removeClass("in");
+         if ($scope.percent == 100) {
+            $( "#progbarContainer" ).removeClass( "in" );
          }
 
       } );
@@ -56,16 +56,16 @@ controllers.PipitListCtrl = function ( $scope, ChangeBook ) {
 
 controllers.ImageCtrl = function ( $scope, $timeout, PageData, CanvasService ) {
 
-   $scope.data = PageData;
    $scope.sliderValue = 0;
+   $scope.totalPages = 0;
 
+   PageData.on.complete.add( function () {
+      $scope.totalPages = PageData.getTotalPages();
+   } );
 
    $scope.$watch( 'sliderValue', function () {
-
-      PageData.pageNumber = Math.round( $scope.sliderValue * PageData.totalPages );
+      PageData.setPageNumber( Math.round( $scope.sliderValue * PageData.getTotalLoadedPages() ) );
       CanvasService.redraw();
-
-
    } );
 
 

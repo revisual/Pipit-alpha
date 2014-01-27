@@ -59,8 +59,10 @@ angular.module( 'app.directives', [] )
                xSpeed = 0,
                startX = 0,
                friction = 0.98,
-               topSpeed = width / 80,
+               topSpeed = width / attr.limitspeedby,
                interval = 33;
+
+
 
             element.css( {
                left: x + 'px'
@@ -68,7 +70,7 @@ angular.module( 'app.directives', [] )
 
             WindowService.signal.add( function ( w, h ) {
                width = w;
-               topSpeed = width / 80;
+               topSpeed = width / attr.limitspeedby;
                sliderTrackWidth = Math.min( width, attr.maxwidth );
                gutter = (width - sliderTrackWidth) * 0.5;
                x = gutter + ((sliderTrackWidth - sliderIconWidth) * ngModel.$viewValue);
@@ -77,15 +79,20 @@ angular.module( 'app.directives', [] )
                } );
             } );
 
+            scope.$watch( 'totalPages', function () {
+               topSpeed = width / attr.limitspeedby;
+            } );
+
             if (WindowService.hasTouch) {
-               $swipe.bind( element, {start: start, move: move, end: end, cancel:end} );
+               $swipe.bind( element, {start: start, move: move, end: end, cancel: end} );
             }
 
             else {
                element.on( 'mousedown', function ( event ) {
 
                   event.preventDefault();
-                  startX = event.screenX - x;
+                  start( {x: event.screenX} );
+                  //startX = event.screenX - x;
 
                   $document.on( 'mousemove', mouseMove );
                   $document.on( 'mouseup', mouseEnd );
@@ -95,6 +102,8 @@ angular.module( 'app.directives', [] )
 
             function start( pos ) {
                startX = pos.x - x;
+               oldX = 0;
+               xSpeed = 0;
             }
 
             function end( pos ) {
@@ -113,7 +122,7 @@ angular.module( 'app.directives', [] )
                x = Math.min( x, width - sliderIconWidth - gutter );
 
                var newX = pos.x;
-               xSpeed = Math.min(newX - oldX, topSpeed);
+               xSpeed = Math.min( newX - oldX, topSpeed );
                oldX = newX;
 
                element.css( {

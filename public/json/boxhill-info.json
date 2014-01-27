@@ -1,3 +1,11 @@
 {
-   "title": "Box Hill: Flickers"
+   "title": "Box Hill: Flickers"     ,
+   "ranges": {
+      "goldcrest": "0-79",
+      "silver-frit": "0-79",
+      "small-blue": "0-79",
+      "glow-worm": "0-79",
+      "door-mouse": "0-79",
+      "stag-beetle": "0-79"
+   }
 }

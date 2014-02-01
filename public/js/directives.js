@@ -43,7 +43,7 @@ angular.module( 'app.directives', [] )
    } )
 
 
-   .directive( 'slider', function ( $document, $swipe, $timeout, WindowService ) {
+   .directive( 'slider', function ( $document, $swipe,  WindowService, FrameService ) {
       return {
          restrict: "E",
          require: '?ngModel',
@@ -108,7 +108,7 @@ angular.module( 'app.directives', [] )
 
             function end( pos ) {
 
-               $timeout( throwSlider, interval );
+               FrameService( throwSlider, interval );
             }
 
             function mouseMove( event ) {
@@ -141,7 +141,7 @@ angular.module( 'app.directives', [] )
                $document.unbind( 'mousemove', mouseMove );
                $document.unbind( 'mouseup', mouseEnd );
 
-               $timeout( throwSlider, interval );
+               FrameService( throwSlider, interval );
             }
 
             function throwSlider() {
@@ -167,7 +167,7 @@ angular.module( 'app.directives', [] )
                } );
 
 
-               $timeout( throwSlider, interval );
+               FrameService( throwSlider, interval );
             }
          }
       }

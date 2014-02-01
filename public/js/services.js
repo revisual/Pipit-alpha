@@ -77,11 +77,11 @@ angular.module( 'app.services', [] )
          fromQuery: function () {
 
             var s = $location.search();
-            if(s.project == null || s.book == null){
+            if (s.project == null || s.book == null) {
                this.to( "whitenight", "thru-the-tunnel" );
             }
 
-            else{
+            else {
                this.to( s.project, s.book );
             }
 
@@ -96,6 +96,18 @@ angular.module( 'app.services', [] )
 
    .factory( 'PageData', function ( ImageService ) {
       return new PageData( ImageService );
+   } )
+
+   .factory( "FrameService", function ( $window ) {
+      return  $window.requestAnimationFrame ||
+         $window.webkitRequestAnimationFrame ||
+         $window.mozRequestAnimationFrame ||
+         $window.oRequestAnimationFrame ||
+         $window.msRequestAnimationFrame ||
+         function ( callback ) {
+            $window.setTimeout( callback, 1000 / 60 );
+         };
+
    } )
 
 

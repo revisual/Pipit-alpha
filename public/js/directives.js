@@ -46,9 +46,8 @@ angular.module( 'app.directives', [] )
    .directive( 'slider', function ( $document, $swipe,  WindowService, FrameService ) {
       return {
          restrict: "E",
-         require: '?ngModel',
 
-         link: function ( scope, element, attr, ngModel ) {
+         link: function ( scope, element, attr ) {
 
             var width = WindowService.width,
                sliderIconWidth = element.prop( "offsetWidth" ),
@@ -62,8 +61,6 @@ angular.module( 'app.directives', [] )
                topSpeed = width / attr.limitspeedby,
                interval = 33;
 
-
-
             element.css( {
                left: x + 'px'
             } );
@@ -73,7 +70,7 @@ angular.module( 'app.directives', [] )
                topSpeed = width / attr.limitspeedby;
                sliderTrackWidth = Math.min( width, attr.maxwidth );
                gutter = (width - sliderTrackWidth) * 0.5;
-               x = gutter + ((sliderTrackWidth - sliderIconWidth) * ngModel.$viewValue);
+               x = gutter + ((sliderTrackWidth - sliderIconWidth) * attr.sliderValue);
                element.css( {
                   left: x + 'px'
                } );
@@ -129,9 +126,8 @@ angular.module( 'app.directives', [] )
                   left: x + 'px'
                } );
 
-               scope.$apply( function () {
-                  ngModel.$setViewValue( (x - gutter) / (sliderTrackWidth - sliderIconWidth) );
-               } );
+               attr.sliderValue =  (x - gutter) / (sliderTrackWidth - sliderIconWidth) ;
+
 
 
             }
@@ -162,9 +158,7 @@ angular.module( 'app.directives', [] )
                   left: x + 'px'
                } );
 
-               scope.$apply( function () {
-                  ngModel.$setViewValue( (x - gutter) / (sliderTrackWidth - sliderIconWidth) );
-               } );
+               attr.sliderValue =  (x - gutter) / (sliderTrackWidth - sliderIconWidth) ;
 
 
                FrameService( throwSlider, interval );

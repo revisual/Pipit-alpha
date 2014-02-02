@@ -94,6 +94,41 @@ angular.module( 'app.services', [] )
 
    .value( 'ElementMap', new ElementMap() )
 
+   .factory( 'tick', function ( FrameService ) {
+
+      var renderFunctions = [];
+      var active = false;
+      var tick = function () {
+         if (!active) return;
+         FrameService( tick );
+         render();
+      }
+
+      var render = function () {
+         var len = renderFunctions.length;
+         for (var i = 0; i < len; i++) {
+            renderFunctions[i]();
+         }
+      };
+
+      return {
+
+         addRender: function ( func ) {
+            renderFunctions.push( func );
+         },
+
+         start: function () {
+            active = true;
+            tick();
+         },
+
+         stop: function () {
+            active = false;
+         }
+
+      }
+   } )
+
    .factory( 'PageData', function ( ImageService ) {
       return new PageData( ImageService );
    } )

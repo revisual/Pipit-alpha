@@ -12,7 +12,7 @@ controllers.AppCtrl = function ( ChangeBook, flick ) {
    } );
 
    ChangeBook.fromQuery();
-}
+};
 
 
 controllers.ProgressCtrl = function ( $scope, flick ) {
@@ -26,10 +26,9 @@ controllers.ProgressCtrl = function ( $scope, flick ) {
       } );
 
    } );
-}
+};
 
 controllers.ImageCtrl = function ( $scope, tick, flick ) {
-
 
    $scope.sliderValue = 0;
    $scope.totalPages = 0;
@@ -43,7 +42,6 @@ controllers.ImageCtrl = function ( $scope, tick, flick ) {
       flick.setPageValue( $scope.sliderValue );
    } );
 
-
    $scope.$watch( 'active', function () {
       if ($scope.active) {
          tick.start();
@@ -54,8 +52,7 @@ controllers.ImageCtrl = function ( $scope, tick, flick ) {
       }
    } );
 
-
-}
+};
 
 
 angular.module( "app.controllers", [] ).controller( controllers );

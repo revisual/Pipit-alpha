@@ -1,5 +1,6 @@
-Pipit
+Pipit (alpha)
 =====
+  Pipit is an R&D project to find the best way of presenting Rachel Henson's flick-book portfolio on the internet.
 
-
-node flickbook app
+  Pipit is built with AngularJS and Bootstrap on the front-end, with Node and Express at the back-end. The images served are optimised
+  for the size of the browser

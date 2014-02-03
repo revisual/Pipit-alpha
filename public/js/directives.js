@@ -97,7 +97,9 @@ angular.module( 'app.directives', [] )
             }
 
             function start( pos ) {
-               scope.active = true;
+               scope.$apply(function(){
+                  scope.active = true;
+               });
                startX = pos.x - x;
                oldX = 0;
                xSpeed = 0;
@@ -141,7 +143,10 @@ angular.module( 'app.directives', [] )
                   left: x + 'px'
                } );
 
-               scope.sliderValue = (x - gutter) / (sliderTrackWidth - sliderIconWidth);
+               scope.$apply(function(){
+                  scope.sliderValue = (x - gutter) / (sliderTrackWidth - sliderIconWidth);
+               });
+
 
                return (beforeX != x);
             }
@@ -151,7 +156,10 @@ angular.module( 'app.directives', [] )
 
                if (xSpeed < 0.1 && xSpeed > -0.1 || move( null )) {
                   xSpeed = 0;
-                  scope.active = false;
+                  scope.$apply(function(){
+                     scope.active = false;
+                  });
+
                }
 
                else {

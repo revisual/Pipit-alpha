@@ -56,6 +56,7 @@ controllers.PipitListCtrl = function ( $scope, ChangeBook ) {
 
 controllers.ImageCtrl = function ( $scope, tick, PageData, CanvasService ) {
 
+
    $scope.sliderValue = 0;
    $scope.totalPages = 0;
    $scope.active = false;

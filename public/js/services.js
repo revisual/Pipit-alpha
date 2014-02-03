@@ -17,7 +17,7 @@ angular.module( 'app.services', [] )
 
       var signal = new signals.Signal();
       var o = {
-         signal: signal,
+         resize: signal,
          width: $window.innerWidth,
          height: $window.innerHeight,
          hasTouch: ( 'ontouchstart' in $window)
@@ -118,11 +118,13 @@ angular.module( 'app.services', [] )
          },
 
          start: function () {
+            if (active)return;
             active = true;
             tick();
          },
 
          stop: function () {
+            if (!active)return;
             active = false;
          }
 

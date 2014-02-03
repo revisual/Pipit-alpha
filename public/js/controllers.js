@@ -14,7 +14,7 @@ controllers.AppCtrl = function ( WindowService, CanvasService, ChangeBook, Image
       PageData.setPageNumber( 1 );
    } );
 
-   WindowService.signal.add( function ( width, height ) {
+   WindowService.resize.add( function ( width, height ) {
       CanvasService.resize( width, height );
    } );
 
@@ -58,22 +58,27 @@ controllers.ImageCtrl = function ( $scope, tick, PageData, CanvasService ) {
 
    $scope.sliderValue = 0;
    $scope.totalPages = 0;
+   $scope.active = false;
 
    PageData.on.complete.add( function () {
       $scope.totalPages = PageData.getTotalPages();
    } );
 
-   tick.addRender(function(){
+   tick.addRender( function () {
       PageData.setPageNumber( Math.round( $scope.sliderValue * PageData.getTotalLoadedPages() ) );
       CanvasService.redraw();
-   }) ;
-   tick.start();
+   } );
 
 
-  /* $scope.$watch( 'sliderValue', function () {
-      PageData.setPageNumber( Math.round( $scope.sliderValue * PageData.getTotalLoadedPages() ) );
-      CanvasService.redraw();
-   } );*/
+   $scope.$watch( 'active', function () {
+      if ($scope.active) {
+         tick.start();
+      }
+
+      else {
+         tick.stop();
+      }
+   } );
 
 
 }

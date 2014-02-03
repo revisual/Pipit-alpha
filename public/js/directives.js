@@ -43,7 +43,7 @@ angular.module( 'app.directives', [] )
    } )
 
 
-   .directive( 'slider', function ( $document, $swipe,  WindowService, FrameService ) {
+   .directive( 'slider', function ( $document, $swipe, WindowService, FrameService ) {
       return {
          restrict: "E",
 
@@ -65,7 +65,7 @@ angular.module( 'app.directives', [] )
                left: x + 'px'
             } );
 
-            WindowService.signal.add( function ( w, h ) {
+            WindowService.resize.add( function ( w, h ) {
                width = w;
                topSpeed = width / attrib.limitspeedby;
                sliderTrackWidth = Math.min( width, attrib.maxwidth );
@@ -97,6 +97,7 @@ angular.module( 'app.directives', [] )
             }
 
             function start( pos ) {
+               scope.active = true;
                startX = pos.x - x;
                oldX = 0;
                xSpeed = 0;
@@ -120,44 +121,43 @@ angular.module( 'app.directives', [] )
 
             function move( pos ) {
 
-               if( pos == null){
-
+               if (pos == null) {
                   x += xSpeed;
                   xSpeed *= friction;
                }
 
-               else{
-
-                  x = pos.x - startX;
+               else {
                   var newX = pos.x;
+                  x = pos.x - startX;
                   xSpeed = Math.min( newX - oldX, topSpeed );
                   oldX = newX;
-
                }
 
+               var beforeX = x;
                x = Math.max( gutter, x );
                x = Math.min( x, width - sliderIconWidth - gutter );
-
 
                element.css( {
                   left: x + 'px'
                } );
 
-               scope.sliderValue =  (x - gutter) / (sliderTrackWidth - sliderIconWidth) ;
+               scope.sliderValue = (x - gutter) / (sliderTrackWidth - sliderIconWidth);
+
+               return (beforeX != x);
             }
-
-
 
 
             function throwSlider() {
 
-               if (xSpeed < 0.1 && xSpeed > -0.1) {
+               if (xSpeed < 0.1 && xSpeed > -0.1 || move( null )) {
                   xSpeed = 0;
-                  return;
+                  scope.active = false;
                }
 
-               move();
-               FrameService( throwSlider, interval );
+               else {
+                  FrameService( throwSlider, interval );
+               }
+
             }
 
 

@@ -2,16 +2,6 @@
 
 
 angular.module( 'app.services', [] )
-   .factory( 'ProjectService', function ( $http ) {
-      return {
-         getData: function () {
-            return $http.get( '/api/projects/' )
-               .then( function ( result ) {
-                  return result.data;
-               } );
-         }
-      }
-   } )
 
    .factory( 'WindowService', function ( $window ) {
 
@@ -89,11 +79,6 @@ angular.module( 'app.services', [] )
       }
    } )
 
-
-   .value( 'ImageService', new ImageListLoader() )
-
-   .value( 'ElementMap', new ElementMap() )
-
    .factory( 'tick', function ( FrameService ) {
 
       var renderFunctions = [];
@@ -143,21 +128,57 @@ angular.module( 'app.services', [] )
          setPageValue: function ( value ) {
             PageData.setPageNumber( Math.round( value * PageData.getTotalLoadedPages() ) );
             CanvasService.redraw();
-         } ,
+         },
 
-         getTotalPages: function(){
+         getTotalPages: function () {
             return PageData.getTotalPages();
-         }    ,
+         },
 
-         redraw:function(){
-            CanvasService.redraw(WindowService.width, WindowService.height);
+         redraw: function () {
+            CanvasService.redraw( WindowService.width, WindowService.height );
          }
       }
    } )
 
-   .
-   factory( 'PageData', function ( ImageService ) {
-      return new PageData( ImageService );
+   .factory( 'PageData', function ( ImageService ) {
+
+      var _pageNumber = 1;
+
+      return{
+         on: ImageService.on,
+
+         getTotalLoadedPages: function () {
+            return ImageService.numberLoadedImages;
+         },
+
+         getTotalPages: function () {
+            return ImageService.totalNumberImages;
+         },
+
+         getWidth: function () {
+            if (ImageService.images.length === 0)return 0;
+            return ImageService.images[_pageNumber - 1].width;
+         },
+
+         getHeight: function () {
+            if (ImageService.images.length === 0)return 0;
+            return ImageService.images[_pageNumber - 1].height;
+         },
+
+         setPageNumber: function ( value ) {
+            _pageNumber = Math.max( 1, Math.min( value, ImageService.images.length ) );
+         },
+
+         getCurrentImage: function () {
+            if (ImageService.images.length === 0)return new Image();
+            return ImageService.images[_pageNumber - 1];
+         },
+
+         load: function ( urls ) {
+            ImageService.resetWith( urls );
+            ImageService.start();
+         }
+      }
    } )
 
    .factory( "FrameService", function ( $window ) {
@@ -172,9 +193,7 @@ angular.module( 'app.services', [] )
 
    } )
 
-
    .factory( 'CanvasService', function ( PageData, ElementMap ) {
-
 
       return {
 
@@ -233,6 +252,10 @@ angular.module( 'app.services', [] )
       }.init();
 
 
-   } );
+   } )
+
+   .value( 'ImageService', new ImageListLoader() )
+
+   .value( 'ElementMap', new ElementMap() );
 
 

@@ -102,52 +102,6 @@ ImageListLoader = function () {
 
 }
 
-PageData = function ( imageList ) {
-
-   var _pageNumber = 1;
-   var _imageList = imageList;
-   this.on = _imageList.on;
-
-   this.getTotalLoadedPages = function () {
-      return _imageList.numberLoadedImages;
-   };
-
-   this.getTotalPages = function () {
-      return _imageList.totalNumberImages;
-   };
-
-   this.getWidth = function () {
-      if (_imageList.images.length === 0)return 0;
-      return _imageList.images[_pageNumber - 1].width;
-   };
-
-   this.getHeight = function () {
-      if (_imageList.images.length === 0)return 0;
-      return _imageList.images[_pageNumber - 1].height;
-   };
-
-   this.getPageNumber = function () {
-      return _pageNumber
-   };
-
-   this.setPageNumber = function ( value ) {
-      _pageNumber = Math.max( 1, Math.min( value, _imageList.images.length ) );
-   };
-
-
-   this.getCurrentImage = function () {
-      if (_imageList.images.length === 0)return new Image();
-      return _imageList.images[_pageNumber - 1];
-   }
-
-   this.load = function ( urls ) {
-      ;
-      _imageList.resetWith( urls );
-      _imageList.start();
-   }
-
-
-}
 
 ElementMap = function () {
 

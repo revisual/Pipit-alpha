@@ -54,7 +54,7 @@ controllers.PipitListCtrl = function ( $scope, ChangeBook ) {
 
 }
 
-controllers.ImageCtrl = function ( $scope, $timeout, PageData, CanvasService ) {
+controllers.ImageCtrl = function ( $scope, tick, PageData, CanvasService ) {
 
    $scope.sliderValue = 0;
    $scope.totalPages = 0;
@@ -63,10 +63,17 @@ controllers.ImageCtrl = function ( $scope, $timeout, PageData, CanvasService ) {
       $scope.totalPages = PageData.getTotalPages();
    } );
 
-   $scope.$watch( 'sliderValue', function () {
+   tick.addRender(function(){
       PageData.setPageNumber( Math.round( $scope.sliderValue * PageData.getTotalLoadedPages() ) );
       CanvasService.redraw();
-   } );
+   }) ;
+   tick.start();
+
+
+  /* $scope.$watch( 'sliderValue', function () {
+      PageData.setPageNumber( Math.round( $scope.sliderValue * PageData.getTotalLoadedPages() ) );
+      CanvasService.redraw();
+   } );*/
 
 
 }

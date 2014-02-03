@@ -47,18 +47,18 @@ angular.module( 'app.directives', [] )
       return {
          restrict: "E",
 
-         link: function ( scope, element, attr ) {
+         link: function ( scope, element, attrib ) {
 
             var width = WindowService.width,
                sliderIconWidth = element.prop( "offsetWidth" ),
-               sliderTrackWidth = Math.min( width, attr.maxwidth ),
+               sliderTrackWidth = Math.min( width, attrib.maxwidth ),
                gutter = (width - sliderTrackWidth) * 0.5,
                x = gutter,
                oldX = 0,
                xSpeed = 0,
                startX = 0,
                friction = 0.98,
-               topSpeed = width / attr.limitspeedby,
+               topSpeed = width / attrib.limitspeedby,
                interval = 33;
 
             element.css( {
@@ -67,17 +67,17 @@ angular.module( 'app.directives', [] )
 
             WindowService.signal.add( function ( w, h ) {
                width = w;
-               topSpeed = width / attr.limitspeedby;
-               sliderTrackWidth = Math.min( width, attr.maxwidth );
+               topSpeed = width / attrib.limitspeedby;
+               sliderTrackWidth = Math.min( width, attrib.maxwidth );
                gutter = (width - sliderTrackWidth) * 0.5;
-               x = gutter + ((sliderTrackWidth - sliderIconWidth) * attr.sliderValue);
+               x = gutter + ((sliderTrackWidth - sliderIconWidth) * scope.sliderValue);
                element.css( {
                   left: x + 'px'
                } );
             } );
 
             scope.$watch( 'totalPages', function () {
-               topSpeed = width / attr.limitspeedby;
+               topSpeed = width / attrib.limitspeedby;
             } );
 
             if (WindowService.hasTouch) {
@@ -89,7 +89,6 @@ angular.module( 'app.directives', [] )
 
                   event.preventDefault();
                   start( {x: event.screenX} );
-                  //startX = event.screenX - x;
 
                   $document.on( 'mousemove', mouseMove );
                   $document.on( 'mouseup', mouseEnd );
@@ -103,6 +102,13 @@ angular.module( 'app.directives', [] )
                xSpeed = 0;
             }
 
+            function mouseEnd() {
+               $document.unbind( 'mousemove', mouseMove );
+               $document.unbind( 'mouseup', mouseEnd );
+
+               FrameService( throwSlider, interval );
+            }
+
             function end( pos ) {
 
                FrameService( throwSlider, interval );
@@ -114,31 +120,34 @@ angular.module( 'app.directives', [] )
 
             function move( pos ) {
 
-               x = pos.x - startX;
+               if( pos == null){
+
+                  x += xSpeed;
+                  xSpeed *= friction;
+               }
+
+               else{
+
+                  x = pos.x - startX;
+                  var newX = pos.x;
+                  xSpeed = Math.min( newX - oldX, topSpeed );
+                  oldX = newX;
+
+               }
+
                x = Math.max( gutter, x );
                x = Math.min( x, width - sliderIconWidth - gutter );
 
-               var newX = pos.x;
-               xSpeed = Math.min( newX - oldX, topSpeed );
-               oldX = newX;
 
                element.css( {
                   left: x + 'px'
                } );
 
-               attr.sliderValue =  (x - gutter) / (sliderTrackWidth - sliderIconWidth) ;
-
-
-
+               scope.sliderValue =  (x - gutter) / (sliderTrackWidth - sliderIconWidth) ;
             }
 
 
-            function mouseEnd() {
-               $document.unbind( 'mousemove', mouseMove );
-               $document.unbind( 'mouseup', mouseEnd );
 
-               FrameService( throwSlider, interval );
-            }
 
             function throwSlider() {
 
@@ -147,22 +156,11 @@ angular.module( 'app.directives', [] )
                   return;
                }
 
-
-               x += xSpeed;
-               x = Math.max( gutter, x );
-               x = Math.min( x, width - sliderIconWidth - gutter );
-
-               xSpeed *= friction;
-
-               element.css( {
-                  left: x + 'px'
-               } );
-
-               attr.sliderValue =  (x - gutter) / (sliderTrackWidth - sliderIconWidth) ;
-
-
+               move();
                FrameService( throwSlider, interval );
             }
+
+
          }
       }
    } )

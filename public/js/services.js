@@ -131,7 +131,32 @@ angular.module( 'app.services', [] )
       }
    } )
 
-   .factory( 'PageData', function ( ImageService ) {
+   .factory( 'flick', function ( PageData, CanvasService, WindowService ) {
+
+      WindowService.resize.add( function ( width, height ) {
+         CanvasService.resize( width, height );
+      } );
+
+      return {
+         on: PageData.on,
+
+         setPageValue: function ( value ) {
+            PageData.setPageNumber( Math.round( value * PageData.getTotalLoadedPages() ) );
+            CanvasService.redraw();
+         } ,
+
+         getTotalPages: function(){
+            return PageData.getTotalPages();
+         }    ,
+
+         redraw:function(){
+            CanvasService.redraw(WindowService.width, WindowService.height);
+         }
+      }
+   } )
+
+   .
+   factory( 'PageData', function ( ImageService ) {
       return new PageData( ImageService );
    } )
 

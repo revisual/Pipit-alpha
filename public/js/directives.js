@@ -97,9 +97,9 @@ angular.module( 'app.directives', [] )
             }
 
             function start( pos ) {
-               scope.$apply(function(){
+               scope.$apply( function () {
                   scope.active = true;
-               });
+               } );
                startX = pos.x - x;
                oldX = 0;
                xSpeed = 0;
@@ -123,6 +123,12 @@ angular.module( 'app.directives', [] )
 
             function move( pos ) {
 
+               if (!scope.active) {
+                  scope.$apply( function () {
+                     scope.active = true;
+                  } );
+               }
+
                if (pos == null) {
                   x += xSpeed;
                   xSpeed *= friction;
@@ -143,9 +149,10 @@ angular.module( 'app.directives', [] )
                   left: x + 'px'
                } );
 
-               scope.$apply(function(){
+               scope.$apply( function () {
                   scope.sliderValue = (x - gutter) / (sliderTrackWidth - sliderIconWidth);
-               });
+               } );
+
 
 
                return (beforeX != x);
@@ -154,11 +161,12 @@ angular.module( 'app.directives', [] )
 
             function throwSlider() {
 
-               if (xSpeed < 0.1 && xSpeed > -0.1 || move( null )) {
+               if (move( null ) || xSpeed < 0.1 && xSpeed > -0.1) {
                   xSpeed = 0;
-                  scope.$apply(function(){
+                  oldX = 0;
+                  scope.$apply( function () {
                      scope.active = false;
-                  });
+                  } );
 
                }
 

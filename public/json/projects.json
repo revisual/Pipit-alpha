@@ -1,66 +1,107 @@
 {
-   "projects": [
-      {
-         "title": "Brighton White Nights: Into The Sea",
-         "projectID": "whitenight",
-         "content": [
-            {
-               "bookID": "thru-the-tunnel",
-               "title": "Through the Tunnel",
-               "tmb": "images/thumbs/whitenight/into-the-sea.jpg"
-            },
-            {
-               "bookID": "splashing",
-               "title": "Splashing with the Fishes",
-               "tmb": "images/thumbs/whitenight/splashing.jpg"
-            },
-            {
-               "bookID": "processional",
-               "title": "Processional March",
-               "tmb": "images/thumbs/whitenight/processional.jpg"
-            } ,
-            {
-               "bookID": "into-the-sea",
-               "title": "Into the Sea",
-               "tmb": "images/thumbs/whitenight/into-the-sea.jpg"
-            }
-         ]
-      },
-      {
-         "title": "Box Hill Flickers",
-         "projectID": "boxhill",
-         "content": [
-            {
-               "bookID": "goldcrest",
-               "title": "Gold Crest",
-               "tmb": "images/thumbs/boxhill/goldcrest.jpg"
-            },
-            {
-               "bookID": "silver-frit",
-               "title": "Sliver Washed Fritillary",
-               "tmb": "images/thumbs/boxhill/silver-frit.jpg"
-            },
-            {
-               "bookID": "small-blue",
-               "title": "Small Blue",
-               "tmb": "images/thumbs/boxhill/small-blue.jpg"
-            },
-            {
-               "bookID": "glow-worms",
-               "title": "Glow Worms",
-               "tmb": "images/thumbs/boxhill/glow-worms.jpg"
-            },
-            {
-               "bookID": "doormouse",
-               "title": "Door Mouse",
-               "tmb": "images/thumbs/boxhill/doormouse.jpg"
-            },
-            {
-               "bookID": "stag-beetle",
-               "title": "Stag Beetle",
-               "tmb": "images/thumbs/boxhill/stag-beetle.jpg"
-            }
-         ]
-      }
-   ]
+  "projects": [
+    {
+      "title": "Brighton White Nights: Into The Sea",
+      "projectID": "whitenight",
+      "content": [
+        {
+          "bookID": "thru-the-tunnel",
+          "title": "Through the Tunnel",
+          "tmb": "images/thumbs/whitenight/into-the-sea.jpg"
+        },
+        {
+          "bookID": "splashing",
+          "title": "Splashing with the Fishes",
+          "tmb": "images/thumbs/whitenight/splashing.jpg"
+        },
+        {
+          "bookID": "processional",
+          "title": "Processional March",
+          "tmb": "images/thumbs/whitenight/processional.jpg"
+        },
+        {
+          "bookID": "into-the-sea",
+          "title": "Into the Sea",
+          "tmb": "images/thumbs/whitenight/into-the-sea.jpg"
+        }
+      ]
+    },
+    {
+      "title": "Box Hill Flickers",
+      "projectID": "boxhill",
+      "content": [
+        {
+          "bookID": "goldcrest",
+          "title": "Gold Crest",
+          "tmb": "images/thumbs/boxhill/goldcrest.jpg"
+        },
+        {
+          "bookID": "silver-frit",
+          "title": "Sliver Washed Fritillary",
+          "tmb": "images/thumbs/boxhill/silver-frit.jpg"
+        },
+        {
+          "bookID": "small-blue",
+          "title": "Small Blue",
+          "tmb": "images/thumbs/boxhill/small-blue.jpg"
+        },
+        {
+          "bookID": "glow-worms",
+          "title": "Glow Worms",
+          "tmb": "images/thumbs/boxhill/glow-worms.jpg"
+        },
+        {
+          "bookID": "doormouse",
+          "title": "Door Mouse",
+          "tmb": "images/thumbs/boxhill/doormouse.jpg"
+        },
+        {
+          "bookID": "stag-beetle",
+          "title": "Stag Beetle",
+          "tmb": "images/thumbs/boxhill/stag-beetle.jpg"
+        }
+      ]
+    },
+    {
+      "title": "THCP Workshop",
+      "projectID": "thcp-workshop",
+      "content": [
+        {
+          "bookID": "eileen-richards",
+          "title": "Eileen Richards",
+          "tmb": "images/thumbs/boxhill/goldcrest.jpg"
+        },
+        {
+          "bookID": "elica-johnson",
+          "title": "Elica Johnson",
+          "tmb": "images/thumbs/boxhill/goldcrest.jpg"
+        },
+        {
+          "bookID": "jane-dilley",
+          "title": "Jane Dilley",
+          "tmb": "images/thumbs/boxhill/goldcrest.jpg"
+        },
+        {
+          "bookID": "laura-montero",
+          "title": "Laura Montero",
+          "tmb": "images/thumbs/boxhill/goldcrest.jpg"
+        },
+        {
+          "bookID": "marian-sibley",
+          "title": "Marian Sibley",
+          "tmb": "images/thumbs/boxhill/goldcrest.jpg"
+        },
+        {
+          "bookID": "monica-sablone",
+          "title": "Monica Sablone",
+          "tmb": "images/thumbs/boxhill/goldcrest.jpg"
+        },
+        {
+          "bookID": "petra-hilgers",
+          "title": "Petra Hilgers",
+          "tmb": "images/thumbs/boxhill/goldcrest.jpg"
+        }
+      ]
+    }
+  ]
 }

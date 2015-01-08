@@ -9,7 +9,8 @@
    "dependencies": {
       "express": "3.4.6",
       "jade": "*" ,
-      "signals": "*"
+      "signals": "*",
+      "formidable-upload":"*"
    },
    "devDependencies": {
       "karma": "*",

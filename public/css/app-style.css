@@ -1,15 +1,16 @@
 body {
     background-color: #000000;
+    position: relative;
 }
 
 .slider {
     position: fixed;
     border: 1px solid cornflowerblue;
-    background: rgba(100, 150, 237, 0.22) url('../images/slider.png');
+
     cursor: pointer;
-    width: 64px;
-    height: 64px;
-    bottom: 5px;
+    width: 100%;
+    height: 100%;
+    top: 0;
     left: 0;
     box-shadow: 2px 2px 4px black;
 }
@@ -21,9 +22,15 @@ body {
     opacity: 0.66;
 }
 
-.pipit-canvas {
-    z-index: -1;
+
+body,
+#contentContainer,
+.screen {
+    background-repeat:no-repeat;
     position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
     top: 0;
 }
 

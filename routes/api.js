@@ -33,9 +33,9 @@ var toOptionInjector = {
    data: ['public', 'data', 'images', '${name}']
 };
 
-var uploader = require( 'formidable-upload' )()
+/*var uploader = require( 'formidable-upload' )()
    .accept( ['image/jpeg', "application/json"] )
-   .to( toOptionInjector.data );
+   .to( toOptionInjector.data );*/
 
 
 var api = {
@@ -68,7 +68,7 @@ var api = {
       data.urls = buildJpgUrls( data );
 
       res.json( data );
-   },
+   }/*,
 
    upload: function ( req, res, next ) {
 
@@ -85,7 +85,7 @@ var api = {
          result: 'failed',
          error: err.message
       });
-   }
+   }*/
 };
 
 module.exports = api;

@@ -16,5 +16,5 @@ module.exports = function ( app ) {
    app.get( '/app/', home.app );
    app.get( '/api/projects/', api.project );
    app.get( '/api/:project/:book/:size', api.book );
-   app.post( '/api/upload/:name', api.upload, api.uploadSuccess, api.uploadError );
+  // app.post( '/api/upload/:name', api.upload, api.uploadSuccess, api.uploadError );
 };

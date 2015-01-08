@@ -55,13 +55,13 @@ angular.module( 'app.services', [] )
       }
    } )
 
-   .factory( 'ChangeBook', function ( BookService, PageData, $location ) {
+   .factory( 'ChangeBook', function ( BookService, flick, $location ) {
 
       return {
          to: function ( project, book ) {
             BookService.getData( project, book )
                .then( function ( data ) {
-                  PageData.load( data.urls.reverse() );
+                  flick.load( data.urls.reverse() );
                } )
          },
          fromQuery: function () {
@@ -116,62 +116,60 @@ angular.module( 'app.services', [] )
       }
    } )
 
-   .factory( 'flick', function ( PageData, CanvasService, WindowService ) {
 
-      WindowService.resize.add( function ( width, height ) {
-         CanvasService.resize( width, height );
-      } );
-
-      return {
-         on: PageData.on,
-
-         setPageValue: function ( value ) {
-            PageData.setPageNumber( Math.round( value * PageData.getTotalLoadedPages() ) );
-            CanvasService.redraw();
-         },
-
-         getTotalPages: function () {
-            return PageData.getTotalPages();
-         },
-
-         redraw: function () {
-            CanvasService.redraw( WindowService.width, WindowService.height );
-         }
-      }
-   } )
-
-   .factory( 'PageData', function ( ImageService ) {
+   .factory( 'flick', function ( ImageService ) {
 
       var _pageNumber = 1;
+      var _remainder = 0;
 
-      return{
+      return {
          on: ImageService.on,
 
          getTotalLoadedPages: function () {
             return ImageService.numberLoadedImages;
          },
 
-         getTotalPages: function () {
+        /* getTotalPages: function () {
             return ImageService.totalNumberImages;
-         },
+         },*/
 
          getWidth: function () {
-            if (ImageService.images.length === 0)return 0;
-            return ImageService.images[_pageNumber - 1].width;
+            if (ImageService.images.length == 0)return 0;
+            if (ImageService.images[_pageNumber ] == undefined)return 0;
+            return ImageService.images[_pageNumber ].width;
          },
 
          getHeight: function () {
-            if (ImageService.images.length === 0)return 0;
-            return ImageService.images[_pageNumber - 1].height;
+            if (ImageService.images.length == 0)return 0;
+            if (ImageService.images[_pageNumber + 1] == undefined)return 0;
+            return ImageService.images[_pageNumber + 1].height;
          },
 
-         setPageNumber: function ( value ) {
-            _pageNumber = Math.max( 1, Math.min( value, ImageService.images.length ) );
+         setPageValue: function ( value ) {
+            var v = value * ImageService.numberLoadedImages;
+            _pageNumber =  Math.floor( v );
+            _remainder = v - _pageNumber
          },
 
-         getCurrentImage: function () {
-            if (ImageService.images.length === 0)return new Image();
-            return ImageService.images[_pageNumber - 1];
+         /* getCurrentImage: function () {
+          if (ImageService.images.length === 0)return new Image();
+          return ImageService.images[_pageNumber - 1];
+          },*/
+
+         getCurrentImageURL: function () {
+            if (ImageService.images.length == 0)return "";
+            if (ImageService.images[_pageNumber - 1] == undefined)return "";
+            return ImageService.images[_pageNumber - 1].src;
+         },
+
+         getOverlayImageURL: function () {
+            if (ImageService.images.length == 0)return "";
+            if (ImageService.images[_pageNumber] == undefined)return "";
+            return ImageService.images[_pageNumber].src;
+         },
+
+         getOverlayAlpha: function () {
+            return _remainder;
          },
 
          load: function ( urls ) {
@@ -182,7 +180,7 @@ angular.module( 'app.services', [] )
    } )
 
    .factory( "FrameService", function ( $window ) {
-      return  $window.requestAnimationFrame ||
+      return $window.requestAnimationFrame ||
          $window.webkitRequestAnimationFrame ||
          $window.mozRequestAnimationFrame ||
          $window.oRequestAnimationFrame ||
@@ -193,7 +191,7 @@ angular.module( 'app.services', [] )
 
    } )
 
-   .factory( 'CanvasService', function ( PageData, ElementMap ) {
+   .factory( 'screen', function ( flick ) {
 
       return {
 
@@ -202,17 +200,17 @@ angular.module( 'app.services', [] )
             this.width = 0;
             this.height = 0;
             this.x = 0;
-            var _context;
+
             var _that = this;
 
             this.redraw = function ( w, h ) {
-               if (PageData.getTotalLoadedPages() === 0)return;
-               var img = PageData.getCurrentImage();
+               if (flick.getTotalLoadedPages() === 0)return;
+               //var img = flick.getCurrentImage();
                if (this.height == 0 || isNaN( this.height )) {
                   calculateDims( w, h );
                   applyDims();
                }
-               _context.drawImage( img, 0, 0, PageData.getWidth(), PageData.getHeight(), 0, 0, this.width, this.height );
+               //drawImage( img, 0, 0, PageData.getWidth(), PageData.getHeight(), 0, 0, this.width, this.height );
             }
 
             this.resize = function ( w, h ) {
@@ -223,28 +221,19 @@ angular.module( 'app.services', [] )
 
             var calculateDims = function ( w, h ) {
                _that.height = h;
-               _that.width = PageData.getWidth() * (_that.height / PageData.getHeight());
+               _that.width = flick.getWidth() * (_that.height / flick.getHeight());
                _that.x = (w - _that.width) * 0.5;
 
             }
 
             var applyDims = function () {
-               var name = "canvas";
-               ElementMap.for( name ).set( "width", _that.width );
-               ElementMap.for( name ).set( "height", _that.height );
-               ElementMap.for( name ).setCSS( "left", _that.x + 'px' );
+               /* var name = "canvas";
+                set( "width", _that.width );
+                set( "height", _that.height );
+                for( name ).setCSS( "left", _that.x + 'px' );*/
             }
 
-            var onElementAdded = function ( name, element ) {
-
-               if (name === "canvas") {
-                  _context = element.getContext( '2d' );
-               }
-
-
-            }
-
-            ElementMap.onElementAdded = onElementAdded;
+            //ElementMap.onElementAdded = onElementAdded;
             return this;
          }
 
@@ -256,6 +245,5 @@ angular.module( 'app.services', [] )
 
    .value( 'ImageService', new ImageListLoader() )
 
-   .value( 'ElementMap', new ElementMap() );
 
 

@@ -1,32 +1,12 @@
 'use strict';
 angular.module( 'app.directives', [] )
 
-   .directive( 'pipitlist', [ function () {
-      return {
-         restrict: 'E',
-         template: "<div class='panel' ng-style='getStyleObj(item)'>{{item.title}}</div>",
-         link: function ( scope, element, attribs ) {
-            scope.getStyleObj = function ( item ) {
-               return { cursor: 'pointer'  }
-            }
-         }
-      }
-   }] )
-
-   .directive( 'map', [ "ElementMap", function ( ElementMap ) {
-      return  {
-         restrict: 'A',
-         link: function ( scope, element, attribs ) {
-            ElementMap.add( element[0] ).with( attribs.map );
-         }
-      }
-   }] )
 
    .directive( 'progbar', function () {
-      return  {
+      return {
 
          template: "<div class='progress'>" +
-            "<div class='progress-bar' role='progressbar' style='{{widthStyle}}' > </div> </div>",
+         "<div class='progress-bar' role='progressbar' style='{{widthStyle}}' > </div> </div>",
 
          restrict: 'E',
          require: '?ngModel',
@@ -41,44 +21,95 @@ angular.module( 'app.directives', [] )
          }
       }
    } )
+   .directive( 'slideshow', function ( tick, flick ) {
+      return {
+         template: "<div ref='overlay'/>",
+         restrict: "E",
+
+         link: function ( scope, element, attribs ) {
+            var iWidth = 0,
+               iHeight = 0,
+               cachedURL = "",
+               cachedAlpha = 0,
 
 
-   .directive( 'slider', function ( $document, $swipe, WindowService, FrameService ) {
+               setImage = function ( e, url, w, h, a ) {
+
+                  e.css( {
+                     'background-image': 'url(' + url + ')',
+                     'background-size': w + 'px ' + h + 'px ',
+                     'opacity': a
+                  } );
+
+               },
+
+               setElementAlpha = function ( e, a ) {
+
+                  e.css( {
+                     'opacity': a
+                  } );
+
+               },
+
+               calcDims = function () {
+                  if( iHeight != 0 && iWidth != 0)return;
+                  iHeight = element.height();
+                  iWidth = flick.getWidth() * (iHeight / flick.getHeight());
+
+                  if (iWidth > element.width()) {
+                     iWidth = element.width();
+                     iHeight = flick.getHeight() * (iWidth / flick.getWidth());
+                  }
+
+
+               },
+
+
+               apply = function () {
+
+                  var url = flick.getCurrentImageURL(),
+                     alpha = flick.getOverlayAlpha();
+
+                  calcDims();
+
+                  if (cachedURL != url) {
+                     setImage( element, flick.getCurrentImageURL(), iWidth, iHeight, 1 );
+                     setImage( scope.overlay, flick.getOverlayImageURL(), iWidth, iHeight, alpha );
+                  }
+
+                  else if (cachedAlpha != alpha) {
+                     setElementAlpha( scope.overlay, alpha );
+                  }
+
+
+                  cachedURL = url;
+                  cachedAlpha = alpha;
+               };
+
+            //calcDims();
+            scope.overlay.addClass( attribs.class );
+
+            tick.addRender( function () {
+               apply();
+            } );
+
+
+         }
+      }
+   } )
+
+
+   .directive( 'slider', function ( $document, $swipe, WindowService ) {
+
       return {
          restrict: "E",
 
          link: function ( scope, element, attrib ) {
-
             var width = WindowService.width,
-               sliderIconWidth = element.prop( "offsetWidth" ),
                sliderTrackWidth = Math.min( width, attrib.maxwidth ),
-               gutter = (width - sliderTrackWidth) * 0.5,
-               x = gutter,
-               oldX = 0,
-               xSpeed = 0,
-               startX = 0,
-               friction = 0.98,
-               topSpeed = width / attrib.limitspeedby,
-               interval = 33;
-
-            element.css( {
-               left: x + 'px'
-            } );
-
-            WindowService.resize.add( function ( w, h ) {
-               width = w;
-               topSpeed = width / attrib.limitspeedby;
-               sliderTrackWidth = Math.min( width, attrib.maxwidth );
-               gutter = (width - sliderTrackWidth) * 0.5;
-               x = gutter + ((sliderTrackWidth - sliderIconWidth) * scope.sliderValue);
-               element.css( {
-                  left: x + 'px'
-               } );
-            } );
-
-            scope.$watch( 'totalPages', function () {
-               topSpeed = width / attrib.limitspeedby;
-            } );
+               targetPosition = 0,
+               previousPoint = 0,
+               previousPosition = 0;
 
             if (WindowService.hasTouch) {
                $swipe.bind( element, {start: start, move: move, end: end, cancel: end} );
@@ -96,90 +127,58 @@ angular.module( 'app.directives', [] )
                } );
             }
 
-            function start( pos ) {
-               scope.$apply( function () {
-                  scope.active = true;
-               } );
-               startX = pos.x - x;
-               oldX = 0;
-               xSpeed = 0;
+            function mouseMove( event ) {
+               move( {x: event.screenX, y: event.screenY} );
             }
 
             function mouseEnd() {
                $document.unbind( 'mousemove', mouseMove );
                $document.unbind( 'mouseup', mouseEnd );
+            }
 
-               FrameService( throwSlider, interval );
+            function start( pos ) {
+               scope.$apply( function () {
+                  scope.active = true;
+               } );
+               previousPoint = pos.x / sliderTrackWidth;
+               previousPosition = targetPosition;
             }
 
             function end( pos ) {
 
-               FrameService( throwSlider, interval );
-            }
-
-            function mouseMove( event ) {
-               move( {x: event.screenX, y: event.screenY} );
             }
 
             function move( pos ) {
-
-               if (!scope.active) {
-                  scope.$apply( function () {
-                     scope.active = true;
-                  } );
-               }
-
-               if (pos == null) {
-                  x += xSpeed;
-                  xSpeed *= friction;
-               }
-
-               else {
-                  var newX = pos.x;
-                  x = pos.x - startX;
-                  xSpeed = Math.min( newX - oldX, topSpeed );
-                  oldX = newX;
-               }
-
-               var beforeX = x;
-               x = Math.max( gutter, x );
-               x = Math.min( x, width - sliderIconWidth - gutter );
-
-               element.css( {
-                  left: x + 'px'
-               } );
-
-               scope.$apply( function () {
-                  scope.sliderValue = (x - gutter) / (sliderTrackWidth - sliderIconWidth);
-               } );
-
-
-
-               return (beforeX != x);
+               var currentPoint = pos.x / sliderTrackWidth;
+               targetPosition = previousPosition + (currentPoint - previousPoint);
+               targetPosition = (targetPosition < 0) ? 0 : (targetPosition > 1) ? 1 : targetPosition;
+               TweenMax.to( scope, 4, {sliderValue: targetPosition, ease: Sine.easeOut, onComplete: complete} );
             }
 
-
-            function throwSlider() {
-
-               if (move( null ) || xSpeed < 0.1 && xSpeed > -0.1) {
-                  xSpeed = 0;
-                  oldX = 0;
-                  scope.$apply( function () {
-                     scope.active = false;
-                  } );
-
-               }
-
-               else {
-                  FrameService( throwSlider, interval );
-               }
-
+            function complete() {
+               scope.$apply( function () {
+                  scope.active = false;
+               } );
             }
 
 
          }
       }
    } )
+
+   .directive( 'ref', function () {
+      return {
+         link: function ( scope, element, attrs ) {
+            scope[attrs.ref] = element;
+
+            // we should clean up to avoid memory leaks
+            element.on( '$destroy', function () {
+               scope[attrs.ref] = null;
+            } );
+         }
+      }
+   } );
+
 
 
 

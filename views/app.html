@@ -17,13 +17,15 @@
     <progbar ng-model='percent' ng-controller="ProgressCtrl"></progbar>
 </div>
 <div id="contentContainer" ng-controller="ImageCtrl" class="fade">
-    <canvas class="pipit-canvas" map="canvas"></canvas>
-    <slider class="slider img-circle" maxWidth="2000" limitSpeedBy='{{totalPages}}' ></slider>
+    <slideshow class="screen"></slideshow>
+    <!--<overlayslide class="screen"></overlayslide>-->
+    <slider class="slider" maxWidth="500"></slider>
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.15.0/TweenMax.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script src="http://code.angularjs.org/1.2.8/angular.min.js"></script>
 <script src="http://code.angularjs.org/1.2.8/angular-touch.min.js"></script>

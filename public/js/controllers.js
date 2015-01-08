@@ -6,7 +6,7 @@ var controllers = {};
 controllers.AppCtrl = function ( ChangeBook, flick ) {
 
    flick.on.firstResolved.add( function () {
-         flick.redraw( );
+        // flick.redraw( );
          $( "#progbarContainer" ).addClass( "in" );
          $( "#contentContainer" ).addClass( "in" );
    } );
@@ -31,18 +31,14 @@ controllers.ProgressCtrl = function ( $scope, flick ) {
 controllers.ImageCtrl = function ( $scope, tick, flick ) {
 
    $scope.sliderValue = 0;
-   $scope.totalPages = 0;
    $scope.active = false;
-
-   flick.on.complete.add( function () {
-      $scope.totalPages = flick.getTotalPages();
-   } );
 
    tick.addRender( function () {
       flick.setPageValue( $scope.sliderValue );
    } );
 
    $scope.$watch( 'active', function () {
+
       if ($scope.active) {
          tick.start();
       }

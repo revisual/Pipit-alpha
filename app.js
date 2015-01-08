@@ -4,9 +4,6 @@
  */
 
 var express = require('express')
-   , routes = require('./routes')
-   , book = require('./routes/api-book')
-   , project = require('./routes/api-project')
    , http = require('http')
    , path = require('path');
 
@@ -29,10 +26,9 @@ if ('development' == app.get('env')) {
    app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/app/', routes.app);
-app.get('/api/projects/', project.get);
-app.get('/api/:project/:book/:size', book.get);
+require('./routes')(app);
+
+
 
 http.createServer(app).listen(app.get('port'), function(){
    console.log('Express server listening on port ' + app.get('port'));

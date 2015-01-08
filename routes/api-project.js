@@ -6,5 +6,6 @@ exports.get = function ( req, res ) {
    var data = buildFiles.getJSONFile( filepath );
 
    res.json( data );
-}
+};
+
 

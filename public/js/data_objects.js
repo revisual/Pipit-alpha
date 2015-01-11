@@ -2,7 +2,16 @@ ImageListLoader = function () {
 
    var Signal = signals.Signal;
 
-   this.on = {progress: new Signal(), complete: new Signal(), firstResolved: new Signal()}
+   this.on = {
+      progress: new Signal(),
+      complete: new Signal(),
+      firstResolved: new Signal(),
+      removeAll: function () {
+         this.progress.removeAll();
+         this.complete.removeAll();
+         this.firstResolved.removeAll();
+      }
+   }
 
    this.images = []
    this.numberLoadedImages = 0;

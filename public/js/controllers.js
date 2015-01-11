@@ -6,9 +6,9 @@ var controllers = {};
 controllers.AppCtrl = function ( ChangeBook, flick ) {
 
    flick.on.firstResolved.add( function () {
-        // flick.redraw( );
-         $( "#progbarContainer" ).addClass( "in" );
-         $( "#contentContainer" ).addClass( "in" );
+      // flick.redraw( );
+      $( "#progbarContainer" ).addClass( "in" );
+      $( "#contentContainer" ).addClass( "in" );
    } );
 
    ChangeBook.fromQuery();
@@ -33,8 +33,11 @@ controllers.ImageCtrl = function ( $scope, tick, flick ) {
    $scope.sliderValue = 0;
    $scope.active = false;
 
-   tick.addRender( function () {
-      flick.setPageValue( $scope.sliderValue );
+   flick.on.complete.addOnce( function () {
+      $scope.setEnabled( true );
+      tick.addRender( function () {
+         flick.setPageValue( $scope.sliderValue );
+      } );
    } );
 
    $scope.$watch( 'active', function () {

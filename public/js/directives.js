@@ -52,7 +52,7 @@ angular.module( 'app.directives', [] )
                },
 
                calcDims = function () {
-                  if( iHeight != 0 && iWidth != 0)return;
+                  if (iHeight != 0 && iWidth != 0)return;
                   iHeight = element.height();
                   iWidth = flick.getWidth() * (iHeight / flick.getHeight());
 
@@ -86,11 +86,30 @@ angular.module( 'app.directives', [] )
                   cachedAlpha = alpha;
                };
 
-            //calcDims();
             scope.overlay.addClass( attribs.class );
+            scope.elementAlpha = 0;
 
-            tick.addRender( function () {
-               apply();
+            flick.on.firstResolved.addOnce( function () {
+               calcDims();
+               setImage( element, flick.getCurrentImageURL(), iWidth, iHeight, 0 );
+               TweenMax.to( scope, 1, {
+                  elementAlpha: 0.22, ease: Sine.easeOut, onUpdate: function () {
+                     setElementAlpha( element, scope.elementAlpha );
+                  }
+               } );
+            } );
+
+            flick.on.complete.addOnce( function () {
+
+               TweenMax.to( scope, 1, {
+                  elementAlpha: 1, ease: Sine.easeOut, onUpdate: function () {
+                     setElementAlpha( element, scope.elementAlpha );
+                  }
+               } );
+
+               tick.addRender( function () {
+                  apply();
+               } );
             } );
 
 
@@ -111,20 +130,36 @@ angular.module( 'app.directives', [] )
                previousPoint = 0,
                previousPosition = 0;
 
-            if (WindowService.hasTouch) {
-               $swipe.bind( element, {start: start, move: move, end: end, cancel: end} );
+            function enable() {
+
+               if (WindowService.hasTouch) {
+                  $swipe.bind( element, {start: start, move: move, end: end, cancel: end} );
+               }
+
+               else {
+                  element.on( 'mousedown', mouseDown );
+               }
             }
 
-            else {
-               element.on( 'mousedown', function ( event ) {
+            function disable() {
 
-                  event.preventDefault();
-                  start( {x: event.screenX} );
+               if (WindowService.hasTouch) {
+                  $swipe.unbind( element, {start: start, move: move, end: end, cancel: end} );
+               }
 
-                  $document.on( 'mousemove', mouseMove );
-                  $document.on( 'mouseup', mouseEnd );
+               else {
+                  element.off( 'mousedown', mouseDown );
+               }
+            }
 
-               } );
+            function mouseDown( event ) {
+
+               event.preventDefault();
+               start( {x: event.screenX} );
+
+               $document.on( 'mousemove', mouseMove );
+               $document.on( 'mouseup', mouseEnd );
+
             }
 
             function mouseMove( event ) {
@@ -159,6 +194,11 @@ angular.module( 'app.directives', [] )
                scope.$apply( function () {
                   scope.active = false;
                } );
+            }
+
+
+            scope.setEnabled = function ( value ) {
+               value ? enable() : disable();
             }
 
 

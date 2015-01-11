@@ -42,7 +42,7 @@ angular.module( 'app.services', [] )
             size = 1620;
          }
 
-         return size;
+         return 768;
       }
 
       return {
@@ -119,7 +119,7 @@ angular.module( 'app.services', [] )
 
    .factory( 'flick', function ( ImageService ) {
 
-      var _pageNumber = 1;
+      var _pageNumber = 0;
       var _remainder = 0;
 
       return {
@@ -141,12 +141,13 @@ angular.module( 'app.services', [] )
 
          getHeight: function () {
             if (ImageService.images.length == 0)return 0;
-            if (ImageService.images[_pageNumber + 1] == undefined)return 0;
-            return ImageService.images[_pageNumber + 1].height;
+            if (ImageService.images[_pageNumber] == undefined)return 0;
+            return ImageService.images[_pageNumber].height;
          },
 
          setPageValue: function ( value ) {
             var v = value * ImageService.numberLoadedImages;
+            console.log(_pageNumber);
             _pageNumber =  Math.floor( v );
             _remainder = v - _pageNumber
          },
@@ -158,14 +159,14 @@ angular.module( 'app.services', [] )
 
          getCurrentImageURL: function () {
             if (ImageService.images.length == 0)return "";
-            if (ImageService.images[_pageNumber - 1] == undefined)return "";
-            return ImageService.images[_pageNumber - 1].src;
+            if (ImageService.images[_pageNumber ] == undefined)return "";
+            return ImageService.images[_pageNumber ].src;
          },
 
          getOverlayImageURL: function () {
             if (ImageService.images.length == 0)return "";
-            if (ImageService.images[_pageNumber] == undefined)return "";
-            return ImageService.images[_pageNumber].src;
+            if (ImageService.images[_pageNumber + 1] == undefined)return "";
+            return ImageService.images[_pageNumber + 1].src;
          },
 
          getOverlayAlpha: function () {

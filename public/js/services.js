@@ -16,7 +16,7 @@ angular.module( 'app.services', [] )
          o.width = $window.innerWidth;
          o.height = $window.innerHeight;
          signal.dispatch( o.width, o.height );
-      }
+      };
       return o;
 
    } )
@@ -80,14 +80,48 @@ angular.module( 'app.services', [] )
    } )
 
    .factory( 'tick', function ( FrameService ) {
-
+      var lastTime = 0;
+      var interval = 1000 / 34;
       var renderFunctions = [];
+      var delta = 0;
       var active = false;
-      var tick = function () {
+      var mean = {
+         maxPush:30,
+         maxValue:200,
+         data: [],
+         push: function ( value ) {
+            if( value > this.maxValue)return;
+            this.data.push( value );
+            if (this.data.length > this.maxPush) {
+               this.data.shift()
+            }
+         },
+         getDelta: function () {
+            var len = this.data.length;
+            var sum = 0;
+            for (var i = 0; i < len; i++) {
+               sum += this.data[i];
+            }
+            return sum / len;
+         }
+      };
+
+      var tick = function ( time ) {
          if (!active) return;
-         FrameService( tick );
-         render();
-      }
+
+         if (time != undefined) {
+            mean.push( time - lastTime );
+            delta = mean.getDelta();
+            lastTime = time;
+         }
+
+         setTimeout( function () {
+            FrameService( tick );
+            render();
+         },  interval );
+         //}, (delta < 0 && delta < 250) ? delta : interval );
+
+      };
 
       var render = function () {
          var len = renderFunctions.length;
@@ -97,6 +131,10 @@ angular.module( 'app.services', [] )
       };
 
       return {
+
+         getDelta: function () {
+            return delta;
+         },
 
          addRender: function ( func ) {
             renderFunctions.push( func );
@@ -108,7 +146,7 @@ angular.module( 'app.services', [] )
             tick();
          },
 
-         stop: function () {
+         pause: function () {
             if (!active)return;
             active = false;
          }
@@ -129,14 +167,14 @@ angular.module( 'app.services', [] )
             return ImageService.numberLoadedImages;
          },
 
-        /* getTotalPages: function () {
-            return ImageService.totalNumberImages;
-         },*/
+         /* getTotalPages: function () {
+          return ImageService.totalNumberImages;
+          },*/
 
          getWidth: function () {
             if (ImageService.images.length == 0)return 0;
-            if (ImageService.images[_pageNumber ] == undefined)return 0;
-            return ImageService.images[_pageNumber ].width;
+            if (ImageService.images[_pageNumber] == undefined)return 0;
+            return ImageService.images[_pageNumber].width;
          },
 
          getHeight: function () {
@@ -147,8 +185,8 @@ angular.module( 'app.services', [] )
 
          setPageValue: function ( value ) {
             var v = value * ImageService.numberLoadedImages;
-            console.log(_pageNumber);
-            _pageNumber =  Math.floor( v );
+            // console.log( _pageNumber );
+            _pageNumber = Math.floor( v );
             _remainder = v - _pageNumber
          },
 
@@ -159,8 +197,8 @@ angular.module( 'app.services', [] )
 
          getCurrentImageURL: function () {
             if (ImageService.images.length == 0)return "";
-            if (ImageService.images[_pageNumber ] == undefined)return "";
-            return ImageService.images[_pageNumber ].src;
+            if (ImageService.images[_pageNumber] == undefined)return "";
+            return ImageService.images[_pageNumber].src;
          },
 
          getOverlayImageURL: function () {
@@ -181,14 +219,36 @@ angular.module( 'app.services', [] )
    } )
 
    .factory( "FrameService", function ( $window ) {
-      return $window.requestAnimationFrame ||
-         $window.webkitRequestAnimationFrame ||
-         $window.mozRequestAnimationFrame ||
-         $window.oRequestAnimationFrame ||
-         $window.msRequestAnimationFrame ||
-         function ( callback ) {
-            $window.setTimeout( callback, 1000 / 60 );
-         };
+      // requestAnimationFrame polyfill by Erik Möller
+      // fixes from Paul Irish and Tino Zijdel
+      (function () {
+         var lastTime = 0;
+         var vendors = ['ms', 'moz', 'webkit', 'o'];
+         for (var x = 0; x < vendors.length && !$window.requestAnimationFrame; ++x) {
+            $window.requestAnimationFrame = $window[vendors[x] + 'RequestAnimationFrame'];
+            $window.cancelAnimationFrame = $window[vendors[x] + 'CancelAnimationFrame']
+            || $window[vendors[x] + 'CancelRequestAnimationFrame'];
+         }
+
+         if (!$window.requestAnimationFrame)
+            $window.requestAnimationFrame = function ( callback, element ) {
+               var currTime = new Date().getTime();
+               var timeToCall = Math.max( 0, 16 - (currTime - lastTime) );
+
+               var id = $window.setTimeout( function () {
+                     callback( currTime + timeToCall );
+                  },
+                  timeToCall );
+               lastTime = currTime + timeToCall;
+               return id;
+            };
+
+         if (!$window.cancelAnimationFrame)
+            $window.cancelAnimationFrame = function ( id ) {
+               clearTimeout( id );
+            };
+      }());
+      return $window.requestAnimationFrame
 
    } )
 

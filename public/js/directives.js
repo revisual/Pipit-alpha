@@ -21,7 +21,7 @@ angular.module( 'app.directives', [] )
          }
       }
    } )
-   .directive( 'slideshow', function ( tick, flick ) {
+   .directive( 'slideshow', function ( tick, flick, WindowService ) {
       return {
          template: "<div ref='overlay'/>",
          restrict: "E",
@@ -33,12 +33,18 @@ angular.module( 'app.directives', [] )
                cachedAlpha = 0,
 
 
-               setImage = function ( e, url, w, h, a ) {
+               setImage = function ( e, url ) {
 
                   e.css( {
-                     'background-image': 'url(' + url + ')',
-                     'background-size': w + 'px ' + h + 'px ',
-                     'opacity': a
+                     'background-image': 'url(' + url + ')'
+                  } );
+
+               },
+
+               setImageSize = function ( e, w, h ) {
+
+                  e.css( {
+                     'background-size': w + 'px ' + h + 'px '
                   } );
 
                },
@@ -52,7 +58,7 @@ angular.module( 'app.directives', [] )
                },
 
                calcDims = function () {
-                  if (iHeight != 0 && iWidth != 0)return;
+                  // if (iHeight != 0 && iWidth != 0)return;
                   iHeight = element.height();
                   iWidth = flick.getWidth() * (iHeight / flick.getHeight());
 
@@ -70,17 +76,15 @@ angular.module( 'app.directives', [] )
                   var url = flick.getCurrentImageURL(),
                      alpha = flick.getOverlayAlpha();
 
-                  calcDims();
-
                   if (cachedURL != url) {
-                     setImage( element, flick.getCurrentImageURL(), iWidth, iHeight, 1 );
-                     setImage( scope.overlay, flick.getOverlayImageURL(), iWidth, iHeight, alpha );
+                     setImage( element, flick.getCurrentImageURL() );
+                     setImage( scope.overlay, flick.getOverlayImageURL() );
+                     setElementAlpha( scope.overlay, alpha );
                   }
 
                   else if (cachedAlpha != alpha) {
                      setElementAlpha( scope.overlay, alpha );
                   }
-
 
                   cachedURL = url;
                   cachedAlpha = alpha;
@@ -89,9 +93,19 @@ angular.module( 'app.directives', [] )
             scope.overlay.addClass( attribs.class );
             scope.elementAlpha = 0;
 
+            WindowService.resize.add( function ( w, h ) {
+               calcDims();
+               setImageSize( element, iWidth, iHeight );
+               setImageSize( scope.overlay, iWidth, iHeight );
+            } );
+
+
             flick.on.firstResolved.addOnce( function () {
                calcDims();
-               setImage( element, flick.getCurrentImageURL(), iWidth, iHeight, 0 );
+               setImage( element, flick.getCurrentImageURL() );
+               setImageSize( element, iWidth, iHeight );
+               setImageSize( scope.overlay, iWidth, iHeight );
+               setElementAlpha( element, 0 );
                TweenMax.to( scope, 1, {
                   elementAlpha: 0.22, ease: Sine.easeOut, onUpdate: function () {
                      setElementAlpha( element, scope.elementAlpha );
@@ -117,6 +131,18 @@ angular.module( 'app.directives', [] )
       }
    } )
 
+   .directive( 'fps', function ( tick ) {
+
+      return {
+         restrict: "E",
+
+         link: function ( scope, element, attrib ) {
+            tick.addRender( function () {
+               element.text(tick.getDelta())
+            } );
+         }
+      }
+   } )
 
    .directive( 'slider', function ( $document, $swipe, WindowService ) {
 
@@ -195,6 +221,11 @@ angular.module( 'app.directives', [] )
                   scope.active = false;
                } );
             }
+
+            WindowService.resize.add( function ( w, h ) {
+               width = w;
+               sliderTrackWidth = Math.min( width, attrib.maxwidth );
+            } );
 
 
             scope.setEnabled = function ( value ) {

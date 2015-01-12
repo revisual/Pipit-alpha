@@ -47,7 +47,7 @@ controllers.ImageCtrl = function ( $scope, tick, flick ) {
       }
 
       else {
-         tick.stop();
+         tick.pause();
       }
    } );
 

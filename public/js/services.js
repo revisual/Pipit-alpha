@@ -42,7 +42,7 @@ angular.module( 'app.services', [] )
             size = 1620;
          }
 
-         return 768;
+         return size;
       }
 
       return {
@@ -81,12 +81,12 @@ angular.module( 'app.services', [] )
 
    .factory( 'tick', function ( FrameService ) {
       var lastTime = 0;
-      var interval = 1000 / 34;
+      var interval = 1000 / 18;
       var renderFunctions = [];
       var delta = 0;
       var active = false;
       var mean = {
-         maxPush:30,
+         maxPush:10,
          maxValue:200,
          data: [],
          push: function ( value ) {
@@ -110,8 +110,8 @@ angular.module( 'app.services', [] )
          if (!active) return;
 
          if (time != undefined) {
-            mean.push( time - lastTime );
-            delta = mean.getDelta();
+            //mean.push( time - lastTime );
+            delta = time - lastTime//mean.getDelta();
             lastTime = time;
          }
 
@@ -119,7 +119,7 @@ angular.module( 'app.services', [] )
             FrameService( tick );
             render();
          },  interval );
-         //}, (delta < 0 && delta < 250) ? delta : interval );
+        // }, (delta < 0 && delta < 100) ? delta : interval );
 
       };
 

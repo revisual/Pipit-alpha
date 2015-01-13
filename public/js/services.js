@@ -31,15 +31,15 @@ angular.module( 'app.services', [] )
          }
 
          else if (size < 992) {
-            size = 992;
+            size = 768;
          }
 
          else if (size < 1200) {
-            size = 1200;
+            size = 992;
          }
 
          else {
-            size = 1620;
+            size = 992;
          }
 
          return size;
@@ -81,19 +81,19 @@ angular.module( 'app.services', [] )
 
    .factory( 'tick', function ( FrameService ) {
       var lastTime = 0;
-      var interval = 1000 / 18;
+      var interval = 1000 / 24;
       var renderFunctions = [];
       var delta = 0;
       var active = false;
       var mean = {
-         maxPush:10,
-         maxValue:200,
+         maxPush: 16,
+         maxValue: 200,
          data: [],
          push: function ( value ) {
-            if( value > this.maxValue)return;
+            if (value > this.maxValue)return;
             this.data.push( value );
             if (this.data.length > this.maxPush) {
-               this.data.shift()
+               this.data.shift();
             }
          },
          getDelta: function () {
@@ -102,7 +102,7 @@ angular.module( 'app.services', [] )
             for (var i = 0; i < len; i++) {
                sum += this.data[i];
             }
-            return sum / len;
+            return Math.round( sum / len );
          }
       };
 
@@ -110,16 +110,16 @@ angular.module( 'app.services', [] )
          if (!active) return;
 
          if (time != undefined) {
-            //mean.push( time - lastTime );
-            delta = time - lastTime//mean.getDelta();
+            mean.push( time - lastTime );
+            delta = mean.getDelta();
             lastTime = time;
          }
 
          setTimeout( function () {
             FrameService( tick );
             render();
-         },  interval );
-        // }, (delta < 0 && delta < 100) ? delta : interval );
+            // },  interval );
+         }, (delta > 0 && delta < 100) ? delta : interval );
 
       };
 

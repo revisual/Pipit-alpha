@@ -1,0 +1,48 @@
+{
+  "title": "THCP Workshop",
+  "projectID": "thcp-workshop",
+  "content": [
+    {
+      "bookID": "eileen-richards",
+      "title": "Eileen Richards",
+      "tmb": "images/thumbs/boxhill/goldcrest.jpg",
+      "range": "0-34"
+    },
+    {
+      "bookID": "elica-johnson",
+      "title": "Elica Johnson",
+      "tmb": "images/thumbs/boxhill/goldcrest.jpg",
+      "range": "0-96"
+    },
+    {
+      "bookID": "jane-dilley",
+      "title": "Jane Dilley",
+      "tmb": "images/thumbs/boxhill/goldcrest.jpg",
+      "range": "0-26"
+    },
+    {
+      "bookID": "laura-montero",
+      "title": "Laura Montero",
+      "tmb": "images/thumbs/boxhill/goldcrest.jpg",
+      "range": "0-49"
+    },
+    {
+      "bookID": "marian-sibley",
+      "title": "Marian Sibley",
+      "tmb": "images/thumbs/boxhill/goldcrest.jpg",
+      "range": "0-38"
+    },
+    {
+      "bookID": "monica-sablone",
+      "title": "Monica Sablone",
+      "tmb": "images/thumbs/boxhill/goldcrest.jpg",
+      "range": "0-41"
+    },
+    {
+      "bookID": "petra-hilgers",
+      "title": "Petra Hilgers",
+      "tmb": "images/thumbs/boxhill/goldcrest.jpg",
+      "range": "0-21"
+    }
+  ]
+}

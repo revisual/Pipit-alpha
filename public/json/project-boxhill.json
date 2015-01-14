@@ -1,0 +1,42 @@
+{
+  "title": "Box Hill Flickers",
+  "projectID": "boxhill",
+  "content": [
+    {
+      "bookID": "goldcrest",
+      "title": "Gold Crest",
+      "tmb": "images/thumbs/boxhill/goldcrest.jpg",
+      "range": "0-79"
+    },
+    {
+      "bookID": "silver-frit",
+      "title": "Sliver Washed Fritillary",
+      "tmb": "images/thumbs/boxhill/silver-frit.jpg",
+      "range": "0-79"
+    },
+    {
+      "bookID": "small-blue",
+      "title": "Small Blue",
+      "tmb": "images/thumbs/boxhill/small-blue.jpg",
+      "range": "0-79"
+    },
+    {
+      "bookID": "glow-worms",
+      "title": "Glow Worms",
+      "tmb": "images/thumbs/boxhill/glow-worms.jpg",
+      "range": "0-79"
+    },
+    {
+      "bookID": "doormouse",
+      "title": "Door Mouse",
+      "tmb": "images/thumbs/boxhill/doormouse.jpg",
+      "range": "0-79"
+    },
+    {
+      "bookID": "stag-beetle",
+      "title": "Stag Beetle",
+      "tmb": "images/thumbs/boxhill/stag-beetle.jpg",
+      "range": "0-79"
+    }
+  ]
+}

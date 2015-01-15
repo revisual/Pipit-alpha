@@ -3,13 +3,19 @@
 var controllers = {};
 
 
-controllers.AppCtrl = function ( ChangeBook, flick ) {
+controllers.AppCtrl = function ( flick, tick, ChangeBook ) {
 
    flick.on.firstResolved.add( function () {
       // flick.redraw( );
       $( "#progbarContainer" ).addClass( "in" );
       $( "#contentContainer" ).addClass( "in" );
    } );
+
+  /* tick.addRender( function () {
+      TweenLite.ticker.fps(tick.getDelta());
+   } );*/
+
+
 
    ChangeBook.fromQuery();
 };

@@ -12,6 +12,7 @@ angular.module( 'app.services', [] )
          height: $window.innerHeight,
          hasTouch: ( 'ontouchstart' in $window)
       };
+
       $window.onresize = function ( event ) {
          o.width = $window.innerWidth;
          o.height = $window.innerHeight;
@@ -43,7 +44,7 @@ angular.module( 'app.services', [] )
          }
 
          return size;
-      }
+      };
 
       return {
          getData: function ( project, book ) {
@@ -81,12 +82,12 @@ angular.module( 'app.services', [] )
 
    .factory( 'tick', function ( FrameService ) {
       var lastTime = 0;
-      var interval = 1000 / 24;
+      var interval = 1000 / 60;
       var renderFunctions = [];
       var delta = 0;
       var active = false;
       var mean = {
-         maxPush: 16,
+         maxPush: 24,
          maxValue: 200,
          data: [],
          push: function ( value ) {
@@ -118,8 +119,9 @@ angular.module( 'app.services', [] )
          setTimeout( function () {
             FrameService( tick );
             render();
-            // },  interval );
-         }, (delta > 0 && delta < 100) ? delta : interval );
+
+        // }, (delta > 0 && delta < 100) ? delta : interval );
+         },  interval );
 
       };
 
@@ -272,27 +274,27 @@ angular.module( 'app.services', [] )
                   applyDims();
                }
                //drawImage( img, 0, 0, PageData.getWidth(), PageData.getHeight(), 0, 0, this.width, this.height );
-            }
+            };
 
             this.resize = function ( w, h ) {
                calculateDims( w, h );
                applyDims();
                this.redraw();
-            }
+            };
 
             var calculateDims = function ( w, h ) {
                _that.height = h;
                _that.width = flick.getWidth() * (_that.height / flick.getHeight());
                _that.x = (w - _that.width) * 0.5;
 
-            }
+            };
 
             var applyDims = function () {
                /* var name = "canvas";
                 set( "width", _that.width );
                 set( "height", _that.height );
                 for( name ).setCSS( "left", _that.x + 'px' );*/
-            }
+            };
 
             //ElementMap.onElementAdded = onElementAdded;
             return this;
@@ -304,7 +306,7 @@ angular.module( 'app.services', [] )
 
    } )
 
-   .value( 'ImageService', new ImageListLoader() )
+   .value( 'ImageService', new ImageListLoader() );
 
 
 

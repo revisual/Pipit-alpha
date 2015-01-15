@@ -213,7 +213,7 @@ angular.module( 'app.directives', [] )
                var currentPoint = pos.x / sliderTrackWidth;
                targetPosition = previousPosition + (currentPoint - previousPoint);
                targetPosition = (targetPosition < 0) ? 0 : (targetPosition > 1) ? 1 : targetPosition;
-               TweenMax.to( scope, 6, {sliderValue: targetPosition, ease: Sine.easeOut, onComplete: complete} );
+               TweenMax.to( scope, 4, {sliderValue: targetPosition, ease: Sine.easeOut, onComplete: complete} );
             }
 
             function complete() {

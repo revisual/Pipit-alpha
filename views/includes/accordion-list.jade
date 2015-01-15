@@ -1,0 +1,4 @@
+each book in project.content
+    a.list-group-item(href='app/#?project=#{project.projectID}&book=#{book.bookID}')
+        img.thumb(src='#{url}#{project.projectID}/thumbs/#{book.bookID}.jpg')
+        | #{book.title}

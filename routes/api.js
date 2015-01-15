@@ -1,10 +1,10 @@
 buildJpgUrls = function ( data ) {
 
    var urls = [];
-   var range = data.ranges[data.bookID];
+   var range = data.range;
 
-   var start = range.split( "-" )[0];
-   var end = range.split( "-" )[1];
+   var start = parseInt( range.split( "-" )[0] );
+   var end = parseInt( range.split( "-" )[1] );
 
    for (var i = start; i <= end; i++) {
       var url = data.url + data.projectID + "/" + data.bookID + "/" + data.size + "/" + pad( i, 5 ) + ".jpg";
@@ -18,6 +18,16 @@ function pad( num, size ) {
    var s = num + "";
    while (s.length < size) s = "0" + s;
    return s;
+}
+
+function getBookData( book, data ) {
+   var len = data.length;
+   for (var i = 0; i < len; i++) {
+      if (data[i].bookID == book) {
+         return data[i];
+      }
+   }
+   throw  "Book id " + book + " not found";
 }
 
 var toOptionInjector = {
@@ -52,17 +62,28 @@ var api = {
       var book = req.params.book;
       var size = req.params.size;
 
-      var filepath = path.join( __dirname, '../public' ) + '/json/' + project + '-info.json';
+      var filepath = path.join( __dirname, '../public' ) + '/json/' + project + '.json';
       var data = buildFiles.getJSONFile( filepath );
 
-      data.projectID = project;
-      data.bookID = book;
-      data.size = size;
-      data.url = process.env.IMAGE_END_POINT;
+      try {
+         data = getBookData( book, data.content );
 
-      data.urls = buildJpgUrls( data );
+         data.projectID = project;
+         data.size = size;
+         data.url = process.env.IMAGE_END_POINT;
+         data.urls = buildJpgUrls( data );
+         data.success = true;
+      }
 
-      res.json( data );
+      catch (error) {
+         data = {success: false, errorMsg: error}
+      }
+
+      finally {
+         res.json( data );
+      }
+
+
    }
 };
 

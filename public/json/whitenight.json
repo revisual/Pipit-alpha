@@ -1,31 +1,26 @@
 {
   "title": "Brighton White Nights: Into The Sea",
   "projectID": "whitenight",
-  "tmb": "images/thumbs/into-the-sea.jpg",
   "index":0,
   "content": [
     {
       "bookID": "thru-the-tunnel",
       "title": "Through the Tunnel",
-      "tmb": "images/thumbs/thru-the-tunnel.jpg",
       "range": "0-79"
     },
     {
       "bookID": "splashing",
       "title": "Splashing with the Fishes",
-      "tmb": "images/thumbs/splashing.jpg",
       "range": "0-79"
     },
     {
       "bookID": "processional",
       "title": "Processional March",
-      "tmb": "images/thumbs/processional.jpg",
       "range": "0-79"
     },
     {
       "bookID": "into-the-sea",
       "title": "Into the Sea",
-      "tmb": "images/thumbs/into-the-sea.jpg",
       "range": "0-79"
     }
   ]

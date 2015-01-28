@@ -1,42 +1,71 @@
 {
   "title": "THCP Workshop",
   "projectID": "thcp-workshop",
-  "index":3,
+  "index": 3,
   "content": [
     {
-      "bookID": "eileen-richards",
-      "title": "Eileen Richards",
-      "range": "0-34"
+      "bookID": "spinning",
+      "title": "Spinning by Sophie Price",
+      "range": "0-45"
     },
     {
-      "bookID": "elica-johnson",
-      "title": "Elica Johnson",
-      "range": "0-96"
+      "bookID": "leaves-in-wind",
+      "title": "Leaves In Wind by Eileen Richards",
+      "range": "0-14"
     },
     {
-      "bookID": "jane-dilley",
-      "title": "Jane Dilley",
-      "range": "0-26"
+      "bookID": "dead-nettle",
+      "title": "Dead Nettle by Jane Dilley",
+      "range": "0-13"
     },
     {
-      "bookID": "laura-montero",
-      "title": "Laura Montero",
-      "range": "0-49"
+      "bookID": "ladybird-hand",
+      "title": "Ladybird Hand by Laura Montero",
+      "range": "0-17"
     },
     {
-      "bookID": "marian-sibley",
-      "title": "Marian Sibley",
-      "range": "0-38"
+      "bookID": "autumn-leaves",
+      "title": "Autumn Leaves by Lizzie Guinness",
+      "range": "0-37"
     },
     {
-      "bookID": "monica-sablone",
-      "title": "Monica Sablone",
-      "range": "0-41"
+      "bookID": "grave-stone-dodge",
+      "title": "Gravestone Dodge by Lizzie Guinness",
+      "range": "0-36"
     },
     {
-      "bookID": "petra-hilgers",
-      "title": "Petra Hilgers",
-      "range": "0-21"
+      "bookID": "fugal-study",
+      "title": "Fungal Study by Marian Sibley",
+      "range": "0-58"
+    },
+    {
+      "bookID": "ladybird-circle",
+      "title": "Ladybird Circle by Monica Sablone",
+      "range": "0-27"
+    },
+    {
+      "bookID": "fungus-flight",
+      "title": "Fungus Flight by Nadia Ward",
+      "range": "0-56"
+    },
+    {
+      "bookID": "butterfly-camera",
+      "title": "Butterfly Camera by Nadia Ward",
+      "range": "0-64"
+    },
+    {
+      "bookID": "log-circle",
+      "title": "Log Circle by Sibel Keefe",
+      "range": "0-45"
+    },
+    {
+      "bookID": "dear-wife",
+      "title": "Dear Wife by Elicia Johnson",
+      "range": "0-40"
     }
+
+
+
+
   ]
 }
